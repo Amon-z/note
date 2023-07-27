@@ -25,22 +25,21 @@ windows ui language 中文。
 新建一个文件夹，进入文件夹并执行`git init`命令即可创建一个空仓库。
 
 ```sh
-$ mkdir test
-$ cd test
-$ git init
+$ git init # 初始化仓库
 ```
 
 添加文件到仓库
 
 ```sh
-$ touch readme.txt
+$ git add readme.txt # 添加文件到暂存区
+$ git commit -m "注释信息" # 提交暂存区文件到存储库
+
+$ git diff readme.txt  # 比较工作区文件与存储库文件的区别
+
 $ git status
-$ git add readme.txt
-$ git commit -m "wrote a readme file"
-$ echo hello > readme.txt
-$ git diff readme.txt
-$ git log # 查看历史记录
-$ git log --pretty=oneline # 简化日志输出
+
+$ git log  # 查看历史记录
+$ git log --pretty=oneline  # 简化日志输出
 ```
 
 ### 版本回退
@@ -49,16 +48,12 @@ git中用`HEAD`表示当前版本，用`HEAD^`表示上一个版本，上上个�
 
 ```sh
 $ git reset --hard HEAD^ # 将版本回退到上一个版本
-$ git reflog # 查看每一次版本变更
+$ git reflog # 查看每一次版本变更，可用于版本回退后再回到未来
 ```
 
 ### 工作区和暂存区
 
-git add是先将工作区文件提交到暂存区，commit的时候将暂存区文件提交到分支。
-
-git管理的时候修改而不是文件。
-
-
+git add是先将工作区文件提交到暂存区，commit的时候将暂存区文件提交到分支。git管理的是修改而不是文件，如果第一次修改提交到暂存区，第二次修改没提交，commit的时候只会提交第一次修改的内容到存储库。
 
 ### 撤销修改
 
@@ -73,15 +68,15 @@ $ git reset HEAD readme.txt
 $ git reset --hard HEAD^
 ```
 
-
-
 ### 删除文件
 
+在文件资源管理器里将文件删除，或者使用rm命令删除文件。
 
+然后使用`git rm <file> 或 git add <file>`添加到暂存区并用commit。
 
+！！！如果是误删文件可以用`git checkout -- <file>`将文件从版本库中恢复。
 
-
-
+## 远程仓库
 
 
 
