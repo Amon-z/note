@@ -19,7 +19,7 @@
 - 定义操作所有关系型数据库的统一标准
 - SQL 分类
 
-![image-20230420002646476](.\assets\image-20230420002646476.png)DDL(Data Definition Language) ： 数据定义语言，用来定义数据库对象：数据库，表，列等。DDL简单理解就是用来操作数据库，表等
+![image-20230420002646476](./assets/image-20230420002646476.png)DDL(Data Definition Language) ： 数据定义语言，用来定义数据库对象：数据库，表，列等。DDL简单理解就是用来操作数据库，表等
 
 DML(Data Manipulation Language) 数据操作语言，用来对数据库中表的数据进行增删改。DML简单理解就对表中数据进行增删改
 
@@ -253,7 +253,7 @@ SELECT 字段列表 FROM 表名 WHERE 条件列表;
 
 条件列表可以使用以下运算符（<font color='red'>14个条件</font>）
 
-![image-20230420014938746](.\assets\image-20230420014938746.png)
+![image-20230420014938746](./assets/image-20230420014938746.png)
 
 ### 模糊查询
 
