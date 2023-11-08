@@ -35,11 +35,11 @@
 
 第四步：将SQL语句执行的结果返回给Java代码
 
-### 2.1  编写代码步骤
+### 编写代码步骤
 
-* 创建工程，导入驱动jar包
+* 创建工程，导入驱动jar包。 [下载地址](https://dev.mysql.com/downloads/connector/j/)
 
-  ![image-20231107194855722](./assets/image-20231107194855722.png)
+![image-20231107194855722](./assets/image-20231107194855722.png)
 
 ```java
 Class.forName("com.mysql.jdbc.Driver"); // 注册驱动
@@ -57,7 +57,7 @@ stmt.executeUpdate(sql);  // 执行SQL
 
 * 释放资源
 
-### 2.2  具体操作
+### 具体操作
 
 * 创建新的空的项目，定义项目的名称，并指定位置，对项目进行设置，JDK版本、编译版本
 * 创建模块，指定模块的名称及位置
@@ -255,7 +255,7 @@ public class JDBCDemo3_Connection {
 Statement对象的作用就是用来执行SQL语句。而针对不同类型的SQL语句使用的方法也不一样。
 
 ```java
-int executeUpdate(String sql)   // 执行给定的SQL语句，（DDL、DML）
+int executeUpdate(String sql)   // 执行给定的SQL语句，（DDL、DML）,返回受影响行数
 ResultSet executeQuery(String sql) // 执行给定的SQl语句，该语句返回单个ResultSet对象
 ```
 
@@ -352,7 +352,7 @@ ResultSet  executeQuery(sql)：执行DQL 语句，返回 ResultSet 对象
 >
 > 方法返回值说明：
 >
-> * true  ： 有效航，当前行有数据
+> * true  ： 有效行，当前行有数据
 > * false ： 无效行，当前行没有数据
 
 > xxx  getXxx(参数)：获取数据
@@ -366,7 +366,7 @@ ResultSet  executeQuery(sql)：执行DQL 语句，返回 ResultSet 对象
 
 ![image-20231107225031080](./assets/image-20231107225031080.png)
 
-一开始光标指定于第一行前，如图所示红色箭头指向于表头行。当我们调用了 `next()` 方法后，光标就下移到第一行数据，并且方法返回true，此时就可以通过 `getInt("id")` 获取当前行id字段的值，也可以通过 `getString("name")` 获取当前行name字段的值。如果想获取下一行的数据，继续调用 `next()`  方法，以此类推。
+一开始光标指定于第一行前，如图所示红色箭头指向于表头行。当我们调用了 `next()` 方法后，光标就下移到第一行数据，并且方法返回true，此时就可以通过 `getInt(1)` 获取当前行id字段的值，也可以通过 `getString("name")` 获取当前行name字段的值。如果想获取下一行的数据，继续调用 `next()`  方法，以此类推。
 
 #### 代码实现
 
@@ -543,7 +543,7 @@ create database test;
 
 那么该如何解决呢？这里就可以将SQL执行对象 `Statement` 换成 `PreparedStatement` 对象。
 
-#### 3.6.2  代码模拟SQL注入问题
+#### 代码模拟SQL注入问题
 
 ```java
 @Test
@@ -586,7 +586,7 @@ select * from tb_user where username = 'sjdljfld' and password = ''or '1' = '1'
 
 接下来我们来学习PreparedStatement对象.
 
-#### 3.6.3  PreparedStatement概述
+### PreparedStatement概述
 
 > PreparedStatement作用：
 >
@@ -625,7 +625,7 @@ select * from tb_user where username = 'sjdljfld' and password = ''or '1' = '1'
   >
   > * 调用这两个方法时不需要传递SQL语句，因为获取SQL语句执行对象时已经对SQL语句进行预编译了。
 
-#### 3.6.4  使用PreparedStatement改进
+### 使用PreparedStatement改进
 
 ```java
  @Test
@@ -670,7 +670,7 @@ select * from tb_user where username = 'sjdljfld' and password = '\'or \'1\' = \
 
 
 
-#### 3.6.5  PreparedStatement原理
+### PreparedStatement原理
 
 > PreparedStatement 好处：
 >
@@ -787,9 +787,9 @@ Java代码操作数据库流程如图所示：
 > * 执行时就不用再进行这些步骤了，速度更快
 > * 如果sql模板一样，则只需要进行一次检查、编译
 
-## 4，数据库连接池
+## 数据库连接池
 
-### 4.1  数据库连接池简介
+### 数据库连接池简介
 
 > * 数据库连接池是个容器，负责分配、管理数据库连接(Connection)
 >
@@ -805,13 +805,13 @@ Java代码操作数据库流程如图所示：
 
 而数据库使用了数据库连接池后，就能达到Connection对象的复用，如下图
 
-<img src="./F:/Alan/1-学习/2-计算机/Java/黑马/阶段3代码资料/day03-JDBC/讲义/assets/image-20210725210432985.png" alt="image-20210725210432985" style="zoom:80%;" />
+![image-20210725210432985](./assets/image-20210725210432985.png)
 
 连接池是在一开始就创建好了一些连接（Connection）对象存储起来。用户需要连接数据库时，不需要自己创建连接，而只需要从连接池中获取一个连接进行使用，使用完毕后再将连接对象归还给连接池；这样就可以起到资源重用，也节省了频繁创建连接销毁连接所花费的时间，从而提升了系统响应的速度。
 
-### 4.2  数据库连接池实现
+### 数据库连接池实现
 
-* 标准接口：==DataSource==
+* 标准接口：DataSource
 
   官方(SUN) 提供的数据库连接池标准接口，由第三方组织实现此接口。该接口提供了获取连接的功能：
 
@@ -835,9 +835,9 @@ Java代码操作数据库流程如图所示：
 
   * 功能强大，性能优秀，是Java语言最好的数据库连接池之一
 
-### 4.3  Driud使用
+### Driud使用
 
-> * 导入jar包 druid-1.1.12.jar
+> * 导入jar包 druid-1.1.12.jar  [下载链接](https://github.com/alibaba/druid/releases)
 > * 定义配置文件
 > * 加载配置文件
 > * 获取数据库连接池对象
@@ -845,11 +845,11 @@ Java代码操作数据库流程如图所示：
 
 现在通过代码实现，首先需要先将druid的jar包放到项目下的lib下并添加为库文件
 
-<img src="./F:/Alan/1-学习/2-计算机/Java/黑马/阶段3代码资料/day03-JDBC/讲义/assets/image-20210725212911980.png" alt="image-20210725212911980" style="zoom:80%;" />
+![image-20210725212911980](./assets/image-20210725212911980.png)
 
 项目结构如下：
 
-<img src="./F:/Alan/1-学习/2-计算机/Java/黑马/阶段3代码资料/day03-JDBC/讲义/assets/image-20210725213210091.png" alt="image-20210725213210091" style="zoom:80%;" />
+![image-20210725213210091](./assets/image-20210725213210091.png)
 
 编写配置文件如下：
 
@@ -892,9 +892,9 @@ public class DruidDemo {
 }
 ```
 
-## 5，JDBC练习
+## JDBC练习
 
-### 5.1  需求
+### 需求
 
 完成商品品牌数据的增删改查操作
 
@@ -903,9 +903,7 @@ public class DruidDemo {
 * 修改：根据id修改
 * 删除：根据id删除
 
-### 5.2  案例实现
-
-#### 5.2.1  环境准备
+### 环境准备
 
 * 数据库表 `tb_brand`
 
@@ -1018,7 +1016,7 @@ public class DruidDemo {
   }
   ```
 
-#### 5.2.2  查询所有
+### 查询所有
 
 ```java
  /**
@@ -1077,7 +1075,7 @@ public void testSelectAll() throws Exception {
 }
 ```
 
-#### 5.2.3  添加数据
+### 添加数据
 
 ```java
 /**
@@ -1125,7 +1123,7 @@ public void testAdd() throws Exception {
 }
 ```
 
-#### 5.2.4  修改数据
+### 修改数据
 
 ```java
 /**
@@ -1193,7 +1191,7 @@ public void testUpdate() throws Exception {
 }
 ```
 
-#### 5.2.5  删除数据
+### 删除数据
 
 ```java
 /**
