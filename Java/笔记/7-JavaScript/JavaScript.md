@@ -736,7 +736,243 @@ JavaScript 提供了两种事件绑定方式：
 
 ## 8 RegExp对象
 
+RegExp 是正则对象。正则对象是判断指定字符串是否符合规则。
 
+如下图是百度贴吧中的帖子
+
+![image-20231128204949851](./assets/image-20231128204949851.png)
+
+我们可以通过爬虫技术去爬取该页面源代码，然后获取页面中所有的邮箱，后期我们可以给这些邮箱地址发送推广的邮件。那么问题来了，如何才能知道页面内容中哪些事邮箱地址呢？这里就可以使用正则表达式来匹配邮箱。
+
+在 js 中对正则表达式封装的对象就是正则对象。
+
+### 8.1  正则对象使用
+
+#### 8.1.1  创建对象
+
+正则对象有两种创建方式：
+
+* 直接量方式：注意不要加引号
+
+  ```js
+  var reg = /正则表达式/;
+  ```
+
+* 创建 RegExp 对象
+
+  ```js
+  var reg = new RegExp("正则表达式");
+  ```
+
+#### 8.1.2  函数
+
+`test(str)` ：判断指定字符串是否符合规则，返回 true或 false
+
+### 8.2  正则表达式
+
+从上面创建正则对象的格式中可以看出不管哪种方式都需要正则表达式，那么什么是正则表达式呢？
+
+正则表达式定义了字符串组成的规则。也就是判断指定的字符串是否符合指定的规则，如果符合返回true，如果不符合返回false。
+
+正则表达式是和语言无关的。很多语言都支持正则表达式，Java语言也支持，只不过正则表达式在不同的语言中的使用方式不同，js 中需要使用正则对象来使用正则表达式。
+
+正则表达式常用的规则如下：
+
+* ^：表示开始
+
+* $：表示结束
+
+* [ ]：代表某个范围内的单个字符，比如： [0-9] 单个数字字符
+
+* .：代表任意单个字符，除了换行和行结束符
+
+* \w：代表单词字符：字母、数字、下划线(_)，相当于 [A-Za-z0-9_]
+
+* \d：代表数字字符： 相当于 [0-9]
+
+量词：
+
+* +：至少一个
+
+* *：零个或多个
+
+* ？：零个或一个
+
+* {x}：x个
+
+* {m,}：至少m个
+
+* {m,n}：至少m个，最多n个
+
+**代码演示：**
+
+```js
+// 规则：单词字符，6~12
+//1,创建正则对象，对正则表达式进行封装
+var reg = /^\w{6,12}$/;
+
+var str = "abcccc";
+//2,判断 str 字符串是否符合 reg 封装的正则表达式的规则
+var flag = reg.test(str);
+alert(flag);
+```
+
+### 8.3  改进表单校验案例
+
+表单校验案例中的规则是我们进行一系列的判断来实现的，现在学习了正则对象后，就可以使用正则对象来改进这个案例。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎注册</title>
+    <link href="../css/register.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="form-div">
+    <div class="reg-content">
+        <h1>欢迎注册</h1>
+        <span>已有帐号？</span> <a href="#">登录</a>
+    </div>
+    <form id="reg-form" action="#" method="get">
+
+        <table>
+
+            <tr>
+                <td>用户名</td>
+                <td class="inputs">
+                    <input name="username" type="text" id="username">
+                    <br>
+                    <span id="username_err" class="err_msg" style="display: none">用户名不太受欢迎</span>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>密码</td>
+                <td class="inputs">
+                    <input name="password" type="password" id="password">
+                    <br>
+                    <span id="password_err" class="err_msg" style="display: none">密码格式有误</span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>手机号</td>
+                <td class="inputs"><input name="tel" type="text" id="tel">
+                    <br>
+                    <span id="tel_err" class="err_msg" style="display: none">手机号格式有误</span>
+                </td>
+            </tr>
+
+        </table>
+
+        <div class="buttons">
+            <input value="注 册" type="submit" id="reg_btn">
+        </div>
+        <br class="clear">
+    </form>
+
+</div>
+
+
+<script>
+
+    //1. 验证用户名是否符合规则
+    //1.1 获取用户名的输入框
+    var usernameInput = document.getElementById("username");
+
+    //1.2 绑定onblur事件 失去焦点
+    usernameInput.onblur = checkUsername;
+
+    function checkUsername() {
+        //1.3 获取用户输入的用户名
+        var username = usernameInput.value.trim();
+
+        //1.4 判断用户名是否符合规则：长度 6~12,单词字符组成
+        var reg = /^\w{6,12}$/;
+        var flag = reg.test(username);
+
+        //var flag = username.length >= 6 && username.length <= 12;
+        if (flag) {
+            //符合规则
+            document.getElementById("username_err").style.display = 'none';
+        } else {
+            //不合符规则
+            document.getElementById("username_err").style.display = '';
+        }
+        return flag;
+    }
+
+    //1. 验证密码是否符合规则
+    //1.1 获取密码的输入框
+    var passwordInput = document.getElementById("password");
+
+    //1.2 绑定onblur事件 失去焦点
+    passwordInput.onblur = checkPassword;
+
+    function checkPassword() {
+        //1.3 获取用户输入的密码
+        var password = passwordInput.value.trim();
+
+        //1.4 判断密码是否符合规则：长度 6~12
+        var reg = /^\w{6,12}$/;
+        var flag = reg.test(password);
+
+        //var flag = password.length >= 6 && password.length <= 12;
+        if (flag) {
+            //符合规则
+            document.getElementById("password_err").style.display = 'none';
+        } else {
+            //不合符规则
+            document.getElementById("password_err").style.display = '';
+        }
+        return flag;
+    }
+
+    //1. 验证手机号是否符合规则
+    //1.1 获取手机号的输入框
+    var telInput = document.getElementById("tel");
+
+    //1.2 绑定onblur事件 失去焦点
+    telInput.onblur = checkTel;
+
+    function checkTel() {
+        //1.3 获取用户输入的手机号
+        var tel = telInput.value.trim();
+
+        //1.4 判断手机号是否符合规则：长度 11，数字组成，第一位是1
+        //var flag = tel.length == 11;
+        var reg = /^[1]\d{10}$/;
+        var flag = reg.test(tel);
+        if (flag) {
+            //符合规则
+            document.getElementById("tel_err").style.display = 'none';
+        } else {
+            //不合符规则
+            document.getElementById("tel_err").style.display = '';
+        
+        return flag;
+    }
+
+    //1. 获取表单对象
+    var regForm = document.getElementById("reg-form");
+
+    //2. 绑定onsubmit 事件
+    regForm.onsubmit = function () {
+        //挨个判断每一个表单项是否都符合要求，如果有一个不合符，则返回false
+
+        var flag = checkUsername() && checkPassword() && checkTel();
+
+        return flag;
+    }
+</script>
+</body>
+</html>
+```
 
 
 
