@@ -43,6 +43,7 @@
 
 ```java
 Class.forName("com.mysql.jdbc.Driver"); // 注册驱动
+//Class.forName("com.mysql.jdbc.Driver")
 
 Connection conn = DriverManager.getConnection(url, username, password);// 获取连接
 
@@ -129,15 +130,13 @@ static {
 
 该类中的静态代码块中已经执行了 `DriverManager` 对象的 `registerDriver()` 方法进行驱动的注册了，那么我们只需要加载 `Driver` 类，该静态代码块就会执行。而 `Class.forName("com.mysql.jdbc.Driver");` 就可以加载 `Driver` 类。
 
-> ==提示：==
->
 > * MySQL 5之后的驱动包，可以省略注册驱动的步骤
-> * 自动加载jar包中META-INF/services/java.sql.Driver文件中的驱动类
+>* 自动加载jar包中META-INF/services/java.sql.Driver文件中的驱动类
 
 * 获取数据库连接
 
 ```java
-static Connection     getConnection(String url, String user, String password)         尝试建立与给定数据库URL的连接
+static Connection getConnection(String url, String user, String password)         尝试建立与给定数据库URL的连接
 ```
 
 参数说明：
@@ -329,7 +328,7 @@ ResultSet executeQuery(String sql) // 执行给定的SQl语句，该语句返回
 
   > 注意：
   >
-  > * 以后开发很少使用java代码操作DDL语句
+  > - 以后开发很少使用java代码操作DDL语句
 
 ### ResultSet
 

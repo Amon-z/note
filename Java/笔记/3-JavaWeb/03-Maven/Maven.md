@@ -25,7 +25,7 @@ Apache Maven 是一个项目管理和构建工具，它基于项目对象模型(
 
 配置本地仓库：修改conf/settings.xml 中的 `<localRepository>` 为一个指定目录。
 
-配置阿里云私服，修改 conf/settings.xml 中的 `<mirrors>`标签，添加如下子标签
+配置阿里云私服，修改 conf/settings.xml 中的 `<mirrors>`标签内，添加如下子标签
 
 ```xml
 <mirror>
@@ -35,6 +35,49 @@ Apache Maven 是一个项目管理和构建工具，它基于项目对象模型(
   <url>https://maven.aliyun.com/repository/public</url>
 </mirror>
 ```
+
+## Maven Index
+
+IDEA 更新索引默认从中央仓库下载，如果在国内，下载非常慢。配置了阿里云镜像，就会从配置的镜像根目录 /.index/ 找索引文件，但是阿里云并没有提供索引服务，所以如果配置了阿里云镜像，再更新索引会报错。因此使用远程下载索引到本地更新的方法。
+
+前提条件：已经在 IDEA 配置好了 Maven 和 tomcat 环境，并且在 IntelliJ IDEA 已经关联了配置好的 Maven。
+
+1. 打开Maven的配置文件`Maven根目录/conf/settings.xml`,注释所有的镜像并添加如下镜像，后面我们的 `tomcat` 本地服务器要伪装成这个镜像服务器：
+
+   ```xml
+       <mirror>
+           <id>aliyunmaven</id>
+           <mirrorOf>*</mirrorOf>
+           <name>阿里云公共仓库</name>
+           <url>http://maven.aliyun.com/repository/public</url>
+       </mirror>
+   ```
+
+   > 注意是http而不是https,因为搭建tomcat服务器默认是http服务。
+
+2. 打开tomcat的服务器配置文件:`tomcat根目录/conf/server.xml`,将端口改为80
+
+   ```xml
+   <Connector port="8080" protocol="HTTP/1.1"
+                  connectionTimeout="60000"
+                  redirectPort="8443" acceptCount="500" maxThreads="400"/>
+   ```
+
+3. 手动从中央仓库下载索引,需要下载两个文件:[nexus-maven-repository-index.properties](https://repo1.maven.org/maven2/.index/nexus-maven-repository-index.properties)和[nexus-maven-repository-index.gz](https://repo1.maven.org/maven2/.index/nexus-maven-repository-index.gz)。
+
+4. 在`tomcat根目录/webapps/ROOT/`下创建文件夹`/repository/public/.index/`(注意与上面mirror中的对应，且其中的.index文件夹windows无法创建，需要使用Git Bash创建)。将下载好的文件移动到`tomcat根目录/webapps/ROOT/repository/public/.index/`下，tomcat主页对应tomcat文件夹中的 ROOT 文件夹，因此我们在 ROOT 文件夹里加文件，就能通过 127.0.0.1/文件夹名下载。
+
+5. 使用管理员权限修改 host 文件：`C:/Windows/System32/drivers/etc/hosts`，在最后添加一行: `127.0.0.1 maven.aliyun.com`，使访问maven.aliyun.com 映射到 127.0.0.1，计算机是先查 host 再查 dns 的，因此，修改 host 文件，把阿里云映射到本地，这样，访问 maven.aliyun.com 时，系统就自动跳到 127.0.0.1 。
+
+6. 启动 tomcat ，在 Windows 系统下双击 tomcat根目录/bin/startup.bat 即可，启动时可能会报找不到 jdk 或者80端口占用等错误，百度一下自行解决。启动完成后建议浏览器访问`http://maven.aliyun.com/repository/public/.index/nexus-maven-repository-index.properties`,看看是不是正常访问（这里注意：chrome浏览器会强制跳转http为https，所以建议使用Git Bash中使用curl命令访问一下有正常的返回内容即说明配置正确 ）。
+
+7. 打开 IDEA ，然后打开 File -> Settings 或者快捷键 Ctrl + Alt + S 打开设置，找到`Build,Execution,Deployment -> Build Tools -> Maven -> Respositories`，然后点击`http://maven.aliyun.com/repository/public`再点击 Update 按钮进行更新，这时候千万不能关闭对话框，否则会导致更新失败，IDEA 右下角会有更新进度条，等进度条消失就更新完毕啦。
+
+8. 更新完成后我们要恢复一些配置文件：
+   关闭 `tomcat` 服务器，修改 `server.xml` 配置文件，将 80 端口再改为8080端口。
+   删除 `tomcat根目录/webapps/ROOT/repository` 文件夹。
+   删除 `C:/Windows/System32/drivers/etc/hosts` 最后一行我们添加的映射。
+   将 `Maven根目录/conf/settings.xml` 配置文件中 `http` 再改为 `https`。
 
 ## Maven常用命令
 
