@@ -1,41 +1,34 @@
 ## Filter&Listener&Ajax
 
-**今日目标：**
-
-> * 能够使用 Filter 完成登陆状态校验功能
-> * 能够使用 axios 发送 ajax 请求
-> * 熟悉 json 格式，并能使用 Fastjson 完成 java 对象和 json 串的相互转换
-> * 使用 axios + json 完成综合案例
-
-## 1，Filter
+## 1.Filter
 
 ### 1.1  Filter概述
 
 Filter 表示过滤器，是 JavaWeb 三大组件(Servlet、Filter、Listener)之一。Servlet 我们之前都已经学习过了，Filter和Listener 我们今天都会进行学习。
 
-过滤器可以把对资源的请求==拦截==下来，从而实现一些特殊的功能。
+过滤器可以把对资源的请求拦截下来，从而实现一些特殊的功能。
 
 如下图所示，浏览器可以访问服务器上的所有的资源（servlet、jsp、html等）
 
-<img src="assets/image-20210823184519509.png" alt="image-20210823184519509" style="zoom:50%;" />
+<img src="./assets/image-20210823184519509.png" alt="image-20210823184519509" style="zoom:50%;" />
 
 而在访问到这些资源之前可以使过滤器拦截来下，也就是说在访问资源之前会先经过 Filter，如下图
 
-<img src="assets/image-20210823184657328.png" alt="image-20210823184657328" style="zoom:57%;" />
+<img src="./assets/image-20210823184657328.png" alt="image-20210823184657328" style="zoom:57%;" />
 
 拦截器拦截到后可以做什么功能呢？
 
-==过滤器一般完成一些通用的操作。==比如每个资源都要写一些代码完成某个功能，我们总不能在每个资源中写这样的代码吧，而此时我们可以将这些代码写在过滤器中，因为请求每一个资源都要经过过滤器。
+过滤器一般完成一些通用的操作。比如每个资源都要写一些代码完成某个功能，我们总不能在每个资源中写这样的代码吧，而此时我们可以将这些代码写在过滤器中，因为请求每一个资源都要经过过滤器。
 
 我们之前做的品牌数据管理的案例中就已经做了登陆的功能，而如果我们不登录能不能访问到数据呢？我们可以在浏览器直接访问首页 ，可以看到 `查询所有` 的超链接
 
-<img src="assets/image-20210823185720197.png" alt="image-20210823185720197" style="zoom:70%;" />
+<img src="./assets/image-20210823185720197.png" alt="image-20210823185720197" style="zoom:70%;" />
 
 当我点击该按钮，居然可以看到品牌的数据
 
-<img src="assets/image-20210823185932418.png" alt="image-20210823185932418" style="zoom:70%;" />
+<img src="./assets/image-20210823185932418.png" alt="image-20210823185932418" style="zoom:70%;" />
 
-这显然和我们的要求不符。我们希望实现的效果是用户如果登陆过了就跳转到品牌数据展示的页面；如果没有登陆就跳转到登陆页面让用户进行登陆，要实现这个效果需要在每一个资源中都写上这段逻辑，而像这种通用的操作，我们就可以放在过滤器中进行实现。这个就是==权限控制==，以后我们还会进行细粒度权限控制。过滤器还可以做 `统一编码处理`、 `敏感字符处理` 等等…
+这显然和我们的要求不符。我们希望实现的效果是用户如果登陆过了就跳转到品牌数据展示的页面；如果没有登陆就跳转到登陆页面让用户进行登陆，要实现这个效果需要在每一个资源中都写上这段逻辑，而像这种通用的操作，我们就可以放在过滤器中进行实现。这个就是`权限控制`，以后我们还会进行细粒度权限控制。过滤器还可以做 `统一编码处理`、 `敏感字符处理` 等等…
 
 ### 1.2  Filter快速入门
 
@@ -45,15 +38,15 @@ Filter 表示过滤器，是 JavaWeb 三大组件(Servlet、Filter、Listener)�
 
 * 定义类，实现 Filter接口，并重写其所有方法
 
-  <img src="assets/image-20210823191006878.png" alt="image-20210823191006878" style="zoom:60%;" />
+  <img src="./assets/image-20210823191006878.png" alt="image-20210823191006878" style="zoom:60%;" />
 
 * 配置Filter拦截资源的路径：在类上定义 `@WebFilter` 注解。而注解的 `value` 属性值 `/*` 表示拦截所有的资源
 
-  <img src="assets/image-20210823191037163.png" alt="image-20210823191037163" style="zoom:67%;" />
+  <img src="./assets/image-20210823191037163.png" alt="image-20210823191037163" style="zoom:67%;" />
 
 * 在doFilter方法中输出一句话，并放行
 
-  <img src="assets/image-20210823191200201.png" alt="image-20210823191200201" style="zoom:60%;" />
+  <img src="./assets/image-20210823191200201.png" alt="image-20210823191200201" style="zoom:60%;" />
 
   > 上述代码中的 `chain.doFilter(request,response);` 就是放行，也就是让其访问本该访问的资源。
 
@@ -61,7 +54,7 @@ Filter 表示过滤器，是 JavaWeb 三大组件(Servlet、Filter、Listener)�
 
 创建一个项目，项目下有一个 `hello.jsp` 页面，项目结构如下：
 
-<img src="assets/image-20210823191855765.png" alt="image-20210823191855765" style="zoom:80%;" />
+<img src="./assets/image-20210823191855765.png" alt="image-20210823191855765" style="zoom:80%;" />
 
 `pom.xml` 配置文件内容如下：
 
@@ -122,7 +115,7 @@ Filter 表示过滤器，是 JavaWeb 三大组件(Servlet、Filter、Listener)�
 
 我们现在在浏览器输入 `http://localhost/filter-demo/hello.jsp` 访问 `hello.jsp` 页面，这里是可以访问到 `hello.jsp` 页面内容的。
 
-<img src="assets/image-20210823192353031.png" alt="image-20210823192353031" style="zoom:67%;" />
+<img src="./assets/image-20210823192353031.png" alt="image-20210823192353031" style="zoom:67%;" />
 
 接下来编写过滤器。过滤器是 Web 三大组件之一，所以我们将 `filter` 创建在 `com.itheima.web.filter` 包下，起名为 `FilterDemo`
 
@@ -148,7 +141,7 @@ public class FilterDemo implements Filter {
 
 重启启动服务器，再次重新访问 `hello.jsp` 页面，这次发现页面没有任何效果，但是在 `idea` 的控制台可以看到如下内容
 
-<img src="assets/image-20210823193759365.png" alt="image-20210823193759365" style="zoom:70%;" />
+<img src="./assets/image-20210823193759365.png" alt="image-20210823193759365" style="zoom:70%;" />
 
 上述效果说明 `FilterDemo` 这个过滤器的 `doFilter()` 方法执行了，但是为什么在浏览器上看不到 `hello.jsp` 页面的内容呢？这是因为在 `doFilter()` 方法中添加放行的方法才能访问到 `hello.jsp` 页面。那就在 `doFilter()` 方法中添加放行的代码
 
@@ -185,13 +178,13 @@ public class FilterDemo implements Filter {
 
 ### 1.3  Filter执行流程
 
-<img src="assets/image-20210823194830074.png" alt="image-20210823194830074" style="zoom:70%;" />
+<img src="./assets/image-20210823194830074.png" alt="image-20210823194830074" style="zoom:70%;" />
 
 如上图是使用过滤器的流程，我们通过以下问题来研究过滤器的执行流程：
 
 * 放行后访问对应资源，资源访问完成后，还会回到Filter中吗？
 
-  从上图就可以看出肯定 ==会== 回到Filter中
+  从上图就可以看出肯定会回到Filter中
 
 * 如果回到Filter中，是重头执行还是执行放行后的逻辑呢？
 
@@ -199,19 +192,19 @@ public class FilterDemo implements Filter {
 
 通过上述的说明，我们就可以总结Filter的执行流程如下：
 
-<img src="assets/image-20210823195434581.png" alt="image-20210823195434581" style="zoom:70%;" />
+<img src="./assets/image-20210823195434581.png" alt="image-20210823195434581" style="zoom:70%;" />
 
 接下来我们通过代码验证一下，在 `doFilter()` 方法前后都加上输出语句，如下
 
-<img src="assets/image-20210823195828596.png" alt="image-20210823195828596" style="zoom:70%;" />
+<img src="./assets/image-20210823195828596.png" alt="image-20210823195828596" style="zoom:70%;" />
 
 同时在 `hello.jsp` 页面加上输出语句，如下
 
-<img src="assets/image-20210823200028284.png" alt="image-20210823200028284" style="zoom:70%;" />
+<img src="./assets/image-20210823200028284.png" alt="image-20210823200028284" style="zoom:70%;" />
 
 执行访问该资源打印的顺序是按照我们标记的标号进行打印的话，说明我们上边总结出来的流程是没有问题的。启动服务器访问 `hello.jsp` 页面，在控制台打印的内容如下：
 
-<img src="assets/image-20210823200202153.png" alt="image-20210823200202153" style="zoom:80%;" />
+<img src="./assets/image-20210823200202153.png" alt="image-20210823200202153" style="zoom:80%;" />
 
 以后我们可以将对请求进行处理的代码放在放行之前进行处理，而如果请求完资源后还要对响应的数据进行处理时可以在放行后进行逻辑处理。
 
@@ -236,7 +229,7 @@ public class FilterDemo implements Filter {
 
 如下图就是一个过滤器链，我们学习过滤器链主要是学习过滤器链执行的流程
 
-<img src="assets/image-20210823215835812.png" alt="image-20210823215835812" style="zoom:70%;" />
+<img src="./assets/image-20210823215835812.png" alt="image-20210823215835812" style="zoom:70%;" />
 
 上图中的过滤器链执行是按照以下流程执行：
 
@@ -326,9 +319,7 @@ public class FilterDemo implements Filter {
 
 * 启动服务器，在浏览器输入 `http://localhost/filter-demo/hello.jsp` 进行测试，在控制台打印内容如下
 
-  <img src="assets/image-20210823221222468.png" alt="image-20210823221222468" style="zoom:70%;" />
-
-  
+  <img src="./assets/image-20210823221222468.png" alt="image-20210823221222468" style="zoom:70%;" />
 
   从结果可以看到确实是按照我们之前说的执行流程进行执行的。
 
@@ -336,7 +327,7 @@ public class FilterDemo implements Filter {
 
 上面代码中为什么是先执行 `FilterDemo` ，后执行 `FilterDemo2` 呢？
 
-我们现在使用的是注解配置Filter，而这种配置方式的优先级是按照过滤器类名(字符串)的自然排序。
+我们现在使用的是注解配置Filter，而这种配置方式的优先级是按照<font color="red">过滤器类名(字符串)的自然排序</font>。
 
 比如有如下两个名称的过滤器 ： `BFilterDemo` 和 `AFilterDemo` 。那一定是 `AFilterDemo` 过滤器先执行。
 
@@ -350,7 +341,7 @@ public class FilterDemo implements Filter {
 
 我们要实现该功能是在每一个资源里加入登陆状态校验的代码吗？显然是不需要的，只需要写一个 `Filter` ，在该过滤器中进行登陆状态校验即可。而在该 `Filter` 中逻辑如下：
 
-<img src="assets/image-20210823223214525.png" alt="image-20210823223214525" style="zoom:70%;" />
+<img src="./assets/image-20210823223214525.png" alt="image-20210823223214525" style="zoom:70%;" />
 
 #### 1.6.3  代码实现
 
@@ -430,7 +421,7 @@ public class LoginFilter implements Filter {
 
 在浏览器上输入 `http://localhost:8080/brand-demo/` ，可以看到如下页面效果
 
-<img src="assets/image-20210823224843179.png" alt="image-20210823224843179" style="zoom:60%;" />
+<img src="./assets/image-20210823224843179.png" alt="image-20210823224843179" style="zoom:60%;" />
 
 从上面效果可以看出没有登陆确实是跳转到登陆页面了，但是登陆页面为什么展示成这种效果了呢？
 
@@ -438,7 +429,7 @@ public class LoginFilter implements Filter {
 
 因为登陆页面需要 `css/login.css` 这个文件进行样式的渲染，下图是登陆页面引入的css文件图解
 
-<img src="assets/image-20210823225411925.png" alt="image-20210823225411925" style="zoom:70%;" />
+<img src="./assets/image-20210823225411925.png" alt="image-20210823225411925" style="zoom:70%;" />
 
 而在请求这个css资源时被过滤器拦截，就相当于没有加载到样式文件导致的。解决这个问题，只需要对所以的登陆相关的资源进行放行即可。还有一种情况就是当我没有用户信息时需要进行注册，而注册时也希望被过滤器放行。
 
@@ -522,7 +513,7 @@ public class LoginFilter implements Filter {
 }
 ```
 
-## 2，Listener
+## 2.Listener
 
 ### 2.1  概述
 
@@ -538,7 +529,7 @@ public class LoginFilter implements Filter {
 
 JavaWeb 提供了8个监听器：
 
-<img src="assets/image-20210823230820586.png" alt="image-20210823230820586" style="zoom:80%;" />
+<img src="./assets/image-20210823230820586.png" alt="image-20210823230820586" style="zoom:80%;" />
 
 这里面只有 `ServletContextListener` 这个监听器后期我们会接触到，`ServletContextListener` 是用来监听 `ServletContext` 对象的创建和销毁。
 
@@ -575,11 +566,11 @@ public class ContextLoaderListener implements ServletContextListener {
 
 启动服务器，就可以在启动的日志信息中看到 `contextInitialized()` 方法输出的内容，同时也说明了 `ServletContext` 对象在服务器启动的时候被创建了。
 
-## 3，Ajax
+## 3.Ajax
 
 ### 3.1  概述
 
-==`AJAX` (Asynchronous JavaScript And XML)：异步的 JavaScript 和 XML。==
+`AJAX` (Asynchronous JavaScript And XML)：异步的 JavaScript 和 XML。
 
 我们先来说概念中的 `JavaScript` 和 `XML`，`JavaScript` 表明该技术和前端相关；`XML` 是指以此进行数据交换。而这两个我们之前都学习过。
 
@@ -591,23 +582,23 @@ AJAX 作用有以下两方面：
 
 我们先来看之前做功能的流程，如下图：
 
-<img src="assets/image-20210823235114367.png" alt="image-20210823235114367" style="zoom:70%;" />
+<img src="./assets/image-20210823235114367.png" alt="image-20210823235114367" style="zoom:70%;" />
 
 如上图，`Servlet` 调用完业务逻辑层后将数据存储到域对象中，然后跳转到指定的 `jsp` 页面，在页面上使用 `EL表达式` 和 `JSTL` 标签库进行数据的展示。
 
-而我们学习了AJAX 后，就可以==使用AJAX和服务器进行通信，以达到使用 HTML+AJAX来替换JSP页面==了。如下图，浏览器发送请求servlet，servlet 调用完业务逻辑层后将数据直接响应回给浏览器页面，页面使用 HTML 来进行数据展示。
+而我们学习了AJAX 后，就可以使用AJAX和服务器进行通信，以达到使用 HTML+AJAX来替换JSP页面了。如下图，浏览器发送请求servlet，servlet 调用完业务逻辑层后将数据直接响应回给浏览器页面，页面使用 HTML 来进行数据展示。
 
-<img src="assets/image-20210823235006847.png" alt="image-20210823235006847" style="zoom:70%;" />
+<img src="./assets/image-20210823235006847.png" alt="image-20210823235006847" style="zoom:70%;" />
 
-2. **异步交互**：可以在==不重新加载整个页面==的情况下，与服务器交换数据并==更新部分网页==的技术，如：搜索联想、用户名是否可用校验，等等…
+2. **异步交互**：可以在不重新加载整个页面的情况下，与服务器交换数据并更新部分网页的技术，如：搜索联想、用户名是否可用校验，等等…
 
-<img src="assets/image-20210824000706401.png" alt="image-20210824000706401" style="zoom:80%;" />
+<img src="./assets/image-20210824000706401.png" alt="image-20210824000706401" style="zoom:80%;" />
 
-上图所示的效果我们经常见到，在我们输入一些关键字（例如 `奥运`）后就会在下面联想出相关的内容，而联想出来的这部分数据肯定是存储在百度的服务器上，而我们并没有看出页面重新刷新，这就是 ==更新局部页面== 的效果。再如下图：
+上图所示的效果我们经常见到，在我们输入一些关键字（例如 `奥运`）后就会在下面联想出相关的内容，而联想出来的这部分数据肯定是存储在百度的服务器上，而我们并没有看出页面重新刷新，这就是 更新局部页面 的效果。再如下图：
 
-<img src="assets/image-20210824001015706.png" alt="image-20210824001015706" style="zoom:80%;" />
+<img src="./assets/image-20210824001015706.png" alt="image-20210824001015706" style="zoom:80%;" />
 
-我们在用户名的输入框输入用户名，当输入框一失去焦点，如果用户名已经被占用就会在下方展示提示的信息；在这整个过程中也没有页面的刷新，只是在局部展示出了提示信息，这就是 ==更新局部页面== 的效果。
+我们在用户名的输入框输入用户名，当输入框一失去焦点，如果用户名已经被占用就会在下方展示提示的信息；在这整个过程中也没有页面的刷新，只是在局部展示出了提示信息，这就是 更新局部页面 的效果。
 
 #### 3.1.2  同步和异步
 
@@ -615,13 +606,13 @@ AJAX 作用有以下两方面：
 
 * 同步发送请求过程如下
 
-<img src="assets/image-20210824001443897.png" alt="image-20210824001443897" style="zoom:80%;" />
+<img src="./assets/image-20210824001443897.png" alt="image-20210824001443897" style="zoom:80%;" />
 
 ​	浏览器页面在发送请求给服务器，在服务器处理请求的过程中，浏览器页面不能做其他的操作。只能等到服务器响应结束后才能，浏览器页面才能继续做其他的操作。
 
 * 异步发送请求过程如下
 
-  <img src="assets/image-20210824001608916.png" alt="image-20210824001608916" style="zoom:80%;" />
+  <img src="./assets/image-20210824001608916.png" alt="image-20210824001608916" style="zoom:80%;" />
 
   浏览器页面发送请求给服务器，在服务器处理请求的过程中，浏览器页面还可以做其他的操作。
 
@@ -722,21 +713,21 @@ public class AjaxServlet extends HttpServlet {
 
 在浏览器地址栏输入 `http://localhost:8080/ajax-demo/01-ajax-demo1.html` ，在 `01-ajax-demo1.html`加载的时候就会发送 `ajax` 请求，效果如下
 
-<img src="assets/image-20210824005956117.png" alt="image-20210824005956117" style="zoom:67%;" />
+<img src="./assets/image-20210824005956117.png" alt="image-20210824005956117" style="zoom:67%;" />
 
 我们可以通过 `开发者模式` 查看发送的 AJAX 请求。在浏览器上按 `F12` 快捷键
 
-<img src="assets/image-20210824010247642.png" alt="image-20210824010247642" style="zoom:80%;" />
+<img src="./assets/image-20210824010247642.png" alt="image-20210824010247642" style="zoom:80%;" />
 
 这个是查看所有的请求，如果我们只是想看 异步请求的话，点击上图中 `All` 旁边的 `XHR`，会发现只展示 Type 是 `xhr` 的请求。如下图：
 
-<img src="assets/image-20210824010438260.png" alt="image-20210824010438260" style="zoom:80%;" /> 
+<img src="./assets/image-20210824010438260.png" alt="image-20210824010438260" style="zoom:80%;" /> 
 
 ### 3.3 案例
 
 需求：在完成用户注册时，当用户名输入框失去焦点时，校验用户名是否在数据库已存在
 
-<img src="assets/image-20210824201415745.png" alt="image-20210824201415745" style="zoom:60%;" />
+<img src="./assets/image-20210824201415745.png" alt="image-20210824201415745" style="zoom:60%;" />
 
 #### 3.3.1  分析
 
@@ -751,7 +742,7 @@ public class AjaxServlet extends HttpServlet {
 
 整体流程如下：
 
-<img src="assets/image-20210829183854285.png" alt="image-20210829183854285" style="zoom:80%;" />
+<img src="./assets/image-20210829183854285.png" alt="image-20210829183854285" style="zoom:80%;" />
 
 #### 3.3.2  后端实现
 
@@ -884,7 +875,7 @@ document.getElementById("username").onblur = function () {
 }
 ```
 
-## 4，axios
+## 4.axios
 
 Axios 对原生的AJAX进行封装，简化书写。
 
@@ -931,7 +922,7 @@ axios 使用是比较简单的，分为以下两步：
 * `url` 属性：用来书写请求的资源路径。如果是 `get` 请求，需要将请求参数拼接到路径的后面，格式为： `url?参数名=参数值&参数名2=参数值2`。
 * `data` 属性：作为请求体被发送的数据。也就是说如果是 `post` 请求的话，数据需要作为 `data` 属性的值。
 
-`then()` 需要传递一个匿名函数。我们将 `then()` 中传递的匿名函数称为 ==回调函数==，意思是该匿名函数在发送请求时不会被调用，而是在成功响应后调用的函数。而该回调函数中的 `resp` 参数是对响应的数据进行封装的对象，通过 `resp.data` 可以获取到响应的数据。
+`then()` 需要传递一个匿名函数。我们将 `then()` 中传递的匿名函数称为 回调函数，意思是该匿名函数在发送请求时不会被调用，而是在成功响应后调用的函数。而该回调函数中的 `resp` 参数是对响应的数据进行封装的对象，通过 `resp.data` 可以获取到响应的数据。
 
 ### 4.2  快速入门
 
@@ -1063,11 +1054,11 @@ axios.post("http://localhost:8080/ajax-demo/axiosServlet","username=zhangsan").t
 })
 ```
 
-## 5，JSON
+## 5.JSON
 
 ### 5.1  概述
 
-==概念：`JavaScript Object Notation`。JavaScript 对象表示法.==
+概念：`JavaScript Object Notation`。JavaScript 对象表示法.
 
 如下是 `JavaScript` 对象的定义格式：
 
@@ -1091,11 +1082,11 @@ axios.post("http://localhost:8080/ajax-demo/axiosServlet","username=zhangsan").t
 
 通过上面 js 对象格式和 json 格式进行对比，发现两个格式特别像。只不过 js 对象中的属性名可以使用引号（可以是单引号，也可以是双引号）；而 `json` 格式中的键要求必须使用双引号括起来，这是 `json` 格式的规定。`json` 格式的数据有什么作用呢？
 
-作用：由于其语法格式简单，层次结构鲜明，现多用于作为==数据载体==，在网络中进行数据传输。如下图所示就是服务端给浏览器响应的数据，这个数据比较简单，如果现需要将 JAVA 对象中封装的数据响应回给浏览器的话，应该以何种数据传输呢？
+作用：由于其语法格式简单，层次结构鲜明，现多用于作为数据载体，在网络中进行数据传输。如下图所示就是服务端给浏览器响应的数据，这个数据比较简单，如果现需要将 JAVA 对象中封装的数据响应回给浏览器的话，应该以何种数据传输呢？
 
-<img src="assets/image-20210830232718632.png" alt="image-20210830232718632" style="zoom:80%;" />
+<img src="./assets/image-20210830232718632.png" alt="image-20210830232718632" style="zoom:80%;" />
 
-大家还记得 `ajax` 的概念吗？ 是 ==异步的 JavaScript 和 xml==。这里的 xml就是以前进行数据传递的方式，如下：
+大家还记得 `ajax` 的概念吗？ 是 异步的 JavaScript 和 xml。这里的 xml就是以前进行数据传递的方式，如下：
 
 ```xml
 <student>
@@ -1166,14 +1157,14 @@ var jsonStr = '{"name":"zhangsan","age":23,"addr":["北京","上海","西安"]}'
 
 通过浏览器打开，页面效果如下图所示
 
-<img src="assets/image-20210831223339530.png" alt="image-20210831223339530" style="zoom:80%;" />
+<img src="./assets/image-20210831223339530.png" alt="image-20210831223339530" style="zoom:80%;" />
 
 现在我们需要获取到该 `JSON` 串中的 `name` 属性值，应该怎么处理呢？
 
 如果它是一个 js 对象，我们就可以通过 `js对象.属性名` 的方式来获取数据。JS 提供了一个对象 `JSON` ，该对象有如下两个方法：
 
-* `parse(str)` ：将 JSON串转换为 js 对象。使用方式是： ==`var jsObject = JSON.parse(jsonStr);`==
-* `stringify(obj)` ：将 js 对象转换为 JSON 串。使用方式是：==`var jsonStr = JSON.stringify(jsObject)`==
+* `parse(str)` ：将 JSON串转换为 js 对象。使用方式是： `var jsObject = JSON.parse(jsonStr);`
+* `stringify(obj)` ：将 js 对象转换为 JSON 串。使用方式是：`var jsonStr = JSON.stringify(jsObject)`
 
 代码演示：
 
@@ -1244,7 +1235,7 @@ axios({
 })
 ```
 
-> ==注意：==
+> 注意：
 >
 > * js 提供的 `JSON` 对象我们只需要了解一下即可。因为 `axios` 会自动对 js 对象和 `JSON` 串进行想换转换。
 > * 发送异步请求时，如果请求参数是 `JSON` 格式，那请求方式必须是 `POST`。因为 `JSON` 串需要放在请求体中。
@@ -1253,7 +1244,7 @@ axios({
 
 学习完 json 后，接下来聊聊 json 的作用。以后我们会以 json 格式的数据进行前后端交互。前端发送请求时，如果是复杂的数据就会以 json 提交给后端；而后端如果需要响应一些复杂的数据时，也需要以 json 格式将数据响应回给浏览器。
 
-<img src="assets/image-20210831104901912.png" alt="image-20210831104901912" style="zoom:70%;" />
+<img src="./assets/image-20210831104901912.png" alt="image-20210831104901912" style="zoom:70%;" />
 
 在后端我们就需要重点学习以下两部分操作：
 
@@ -1325,29 +1316,29 @@ axios({
 
   
 
-## 6，案例
+## 6.案例
 
 ### 6.1  需求
 
 使用Axios + JSON 完成品牌列表数据查询和添加。页面效果还是下图所示：
 
-<img src="assets/image-20210830234803335.png" alt="image-20210830234803335" style="zoom:60%;" />
+<img src="./assets/image-20210830234803335.png" alt="image-20210830234803335" style="zoom:60%;" />
 
 ### 6.2  查询所有功能
 
-![image-20210831085332612](assets/image-20210831085332612.png)
+![image-20210831085332612](./assets/image-20210831085332612.png)
 
 如上图所示就该功能的整体流程。前后端需以 JSON 格式进行数据的传递；由于此功能是查询所有的功能，前端发送 ajax 请求不需要携带参数，而后端响应数据需以如下格式的 json 数据
 
-![image-20210831090839336](assets/image-20210831090839336.png)
+![image-20210831090839336](./assets/image-20210831090839336.png)
 
 #### 6.2.1  环境准备
 
 将 `02-AJAX\04-资料\3. 品牌列表案例\初始工程` 下的 `brand-demo` 工程拷贝到我们自己 `工作空间` ，然后再将项目导入到我们自己的 Idea 中。工程目录结构如下：
 
-<img src="assets/image-20210831091604457.png" alt="image-20210831091604457" style="zoom:80%;" />
+<img src="./assets/image-20210831091604457.png" alt="image-20210831091604457" style="zoom:80%;" />
 
-==注意：==
+注意：
 
 * 在给定的原始工程中已经给定一些代码。而在此案例中我们只关注前后端交互代码实现
 * 要根据自己的数据库环境去修改连接数据库的信息，在 `mybatis-config.xml` 核心配置文件中修改
@@ -1357,7 +1348,7 @@ axios({
 在 `com.itheima.web` 包下创建名为 `SelectAllServlet` 的 `servlet`，具体的逻辑如下：
 
 * 调用 service 的 `selectAll()` 方法进行查询所有的逻辑处理
-* 将查询到的集合数据转换为 json 数据。我们将此过程称为 ==序列化==；如果是将 json 数据转换为 Java 对象，我们称之为 ==反序列化==
+* 将查询到的集合数据转换为 json 数据。我们将此过程称为 序列化；如果是将 json 数据转换为 Java 对象，我们称之为 反序列化
 * 将 json 数据响应回给浏览器。这里一定要设置响应数据的类型及字符集 `response.setContentType("text/json;charset=utf-8");`
 
 `SelectAllServlet` 代码如下：
@@ -1427,11 +1418,11 @@ axios({
 
 在 `then` 中的回调函数中通过 `resp.data` 可以获取响应回来的数据，而数据格式如下
 
-<img src="assets/image-20210831093617083.png" alt="image-20210831093617083" style="zoom:80%;" />
+<img src="./assets/image-20210831093617083.png" alt="image-20210831093617083" style="zoom:80%;" />
 
 现在我们需要拼接字符串，将下面表格中的所有的 `tr` 拼接到一个字符串中，然后使用 `document.getElementById("brandTable").innerHTML = 拼接好的字符串`  就可以动态的展示出用户想看到的数据
 
-<img src="assets/image-20210831093938057.png" alt="image-20210831093938057" style="zoom:70%;" />
+<img src="./assets/image-20210831093938057.png" alt="image-20210831093938057" style="zoom:70%;" />
 
 而表头行是固定的，所以先定义初始值是表头行数据的字符串，如下
 
@@ -1545,19 +1536,19 @@ document.getElementById("brandTable").innerHTML = tableData;
 
 ### 6.3  添加品牌功能
 
-![image-20210831100117014](assets/image-20210831100117014.png)
+![image-20210831100117014](./assets/image-20210831100117014.png)
 
 如上所示，当我们点击 `新增` 按钮，会跳转到 `addBrand.html` 页面。在 `addBrand.html` 页面输入数据后点击 `提交` 按钮，就会将数据提交到后端，而后端将数据保存到数据库中。
 
 具体的前后端交互的流程如下：
 
-![image-20210831100329698](assets/image-20210831100329698.png)
+![image-20210831100329698](./assets/image-20210831100329698.png)
 
-==说明：==
+说明：
 
 前端需要将用户输入的数据提交到后端，这部分数据需要以 json 格式进行提交，数据格式如下：
 
-![image-20210831101234467](assets/image-20210831101234467.png)
+![image-20210831101234467](./assets/image-20210831101234467.png)
 
 #### 6.3.1  后端实现
 
@@ -1653,9 +1644,9 @@ let brandName = document.getElementById("brandName").value;
 formData.brandName = brandName;
 ```
 
-==说明：其他的输入框都用同样的方式获取并赋值。==但是有一个比较特殊，就是状态数据，如下图是页面内容
+说明：其他的输入框都用同样的方式获取并赋值。但是有一个比较特殊，就是状态数据，如下图是页面内容
 
-<img src="assets/image-20210831103843798.png" alt="image-20210831103843798" style="zoom:80%;" />
+<img src="./assets/image-20210831103843798.png" alt="image-20210831103843798" style="zoom:80%;" />
 
 我们需要判断哪儿个被选中，再将选中的单选框数据赋值给 `formData` 对象的 `status` 属性，代码实现如下：
 
@@ -1751,6 +1742,6 @@ for (let i = 0; i < status.length; i++) {
 </html>
 ```
 
-==说明：==
+说明：
 
 `查询所有` 功能和 `添加品牌` 功能就全部实现，大家肯定会感觉前端的代码很复杂；而这只是暂时的，后面学习了 `vue` 前端框架后，这部分前端代码就可以进行很大程度的简化。
