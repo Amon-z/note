@@ -474,7 +474,7 @@ public class AppForInstanceUser {
 
 ![image-20210729200240820](assets/image-20210729200240820.png)
 
-#### 2.4 实现FactoryBean\<T>方式【扩展,了解】
+#### 2.4 实现FactoryBean\<T>方式
 
 - 定义UserDaoFactoryBean实现FactoryBean\<UserDao>
 
@@ -642,7 +642,7 @@ public class UserDaoFactoryBean implements FactoryBean<UserDao> {
 
 > 说明：property标签表示setter方式注入，构造方式注入constructor-arg标签内部也可以写\<array>、\<list>、\<set>、\<map>、\<props>标签
 
-## 六、Bean的生命周期【了解】
+## 六、Bean的生命周期
 
 ### 1 生命周期相关概念介绍
 
