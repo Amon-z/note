@@ -141,7 +141,7 @@ jdbc.password=root
 
 ![image-20210730101826913](assets/image-20210730101826913.png)
 
-**==小技巧：如果同学们觉得上述复制粘贴方式不好改或者容易改错，其实idea是有提示功能的，注意不要选错就行了。有些版本的idea没有这个提示，那么就按照上面复制粘贴的方式改，改完之后可以做成live template模板，后期直接用。==**
+**小技巧：如果同学们觉得上述复制粘贴方式不好改或者容易改错，其实idea是有提示功能的，注意不要选错就行了。有些版本的idea没有这个提示，那么就按照上面复制粘贴的方式改，改完之后可以做成live template模板，后期直接用。**
 
 ![image-20210730102053281](assets/image-20210730102053281.png)
 
@@ -202,24 +202,18 @@ jdbc.password=root
 ```xml
 <context:property-placeholder location="*.properties"/>
 ```
-- 加载properties文件**==标准格式==**
+- 加载项目中所有properties文件-标准格式
 ```xml
 <context:property-placeholder location="classpath:*.properties"/>
 ```
-- 加载properties文件标准格式
+- 加载项目中及jar包中所有properties文件-标准格式
 ```xml
 <context:property-placeholder location="classpath*:*.properties"/>
 ```
 
-
-
 ## 二、Spring容器
 
 ### 1 Spring核心容器介绍
-
-#### 问题导入
-
-问题：按照Bean名称获取Bean有什么弊端，按照Bean类型获取Bean有什么弊端？
 
 #### 1.1 创建容器
 
@@ -241,8 +235,6 @@ ApplicationContext ctx = new FileSystemXmlApplicationContext("D:\\applicationCon
 ApplicationContext ctx = new ClassPathXmlApplicationContext("bean1.xml", "bean2.xml");
 ```
 
-
-
 #### 1.2 获取bean对象
 
 - 方式一：使用bean名称获取
@@ -253,9 +245,9 @@ ApplicationContext ctx = new ClassPathXmlApplicationContext("bean1.xml", "bean2.
 BookDao bookDao = (BookDao) ctx.getBean("bookDao");
 ```
 
-- **==方式二：使用bean名称获取并指定类型==**
+- 方式二：使用bean名称获取并指定类型
 
-> 弊端：推荐使用
+> 推荐使用
 
 ```java
 BookDao bookDao = ctx.getBean("bookDao", BookDao.class);
@@ -286,8 +278,6 @@ bookDao.save();
 
 - BeanFactory创建完毕后，所有的Bean均为延迟加载，也就是说我们调用getBean()方法获取Bean对象时才创建Bean对象并返回给我们
 
-
-
 ### 2 Spring核心容器总结
 
 #### 2.1 容器相关
@@ -296,7 +286,7 @@ bookDao.save();
 - ApplicationContext接口是Spring容器的核心接口，初始化时bean立即加载
 - ApplicationContext接口提供基础的bean操作相关方法，通过其他接口扩展其功能
 - ApplicationContext接口常用初始化类
-  - **==ClassPathXmlApplicationContext(常用)==**
+  - **ClassPathXmlApplicationContext(常用)**
   - FileSystemXmlApplicationContext
 
 #### 2.2 bean相关
@@ -311,15 +301,9 @@ bookDao.save();
 
 ## 三、Spring注解开发
 
-### 1 注解开发定义Bean对象【重点】
+### 1 注解开发定义Bean对象
 
 > 目的：xml配置Bean对象有些繁琐，使用注解简化Bean对象的定义
-
-#### 问题导入
-
-问题1：使用什么标签进行Spring注解包扫描？
-
-问题2：@Component注解和@Controller、@Service、@Repository三个衍生注解有什么区别？
 
 #### 1.1 基本使用
 
@@ -406,15 +390,7 @@ public class BookServiceImpl implements BookService {
 
 ```
 
-
-
-### 2 纯注解开发模式【重点】
-
-#### 问题导入
-
-问题1：配置类上使用什么注解表示该类是一个配置类？
-
-问题2：配置类上使用什么注解进行Spring注解包扫描？
+### 2 纯注解开发模式
 
 #### 2.1 纯注解开发模式介绍
 
@@ -470,13 +446,7 @@ public class AppForAnnotation {
 }
 ```
 
-
-
 ### 3 注解开发Bean作用范围和生命周期管理
-
-#### 问题导入
-
-在类上使用什么注解定义Bean的作用范围？
 
 #### 3.1 bean作用范围注解配置
 
@@ -511,7 +481,7 @@ public class BookDaoImpl implements BookDao {
 }
 ```
 
-==**注意：@PostConstruct和@PreDestroy注解是jdk中提供的注解，从jdk9开始，jdk中的javax.annotation包被移除了，也就是说这两个注解就用不了了，可以额外导入一下依赖解决这个问题。**==
+> 注意：@PostConstruct和@PreDestroy注解是jdk中提供的注解，从jdk9开始，jdk中的javax.annotation包被移除了，也就是说这两个注解就用不了了，可以额外导入一下依赖解决这个问题。
 
 ```xml
 <dependency>
@@ -521,15 +491,7 @@ public class BookDaoImpl implements BookDao {
 </dependency>
 ```
 
-
-
-### 4 注解开发依赖注入【重点】
-
-#### 问题导入
-
-问题1：请描述@Autowired注解是如何进行自动装配的？
-
-问题2：请描述@Qualifier注解的作用
+### 4 注解开发依赖注入
 
 #### 4.1 使用@Autowired注解开启自动装配模式（按类型）
 
@@ -549,7 +511,7 @@ public class BookServiceImpl implements BookService {
 
 > 说明：不管是使用配置文件还是配置类，都必须进行对应的Spring注解包扫描才可以使用。@Autowired默认按照类型自动装配，如果IOC容器中同类的Bean有多个，那么默认按照变量名和Bean的名称匹配，建议使用@Qualifier注解指定要装配的bean名称
 
-==注意：自动装配基于反射设计创建对象并暴力反射对应属性为私有属性初始化数据，因此无需提供setter方法。==
+注意：自动装配基于反射设计创建对象并暴力反射对应属性为私有属性初始化数据，因此无需提供setter方法。
 
 #### 4.2 使用@Qualifier注解指定要装配的bean名称
 
@@ -571,7 +533,7 @@ public class BookServiceImpl implements BookService {
 }
 ```
 
-==注意：@Qualifier注解无法单独使用，必须配合@Autowired注解使用==
+注意：@Qualifier注解无法单独使用，必须配合@Autowired注解使用
 
 #### 4.3 使用@Value实现简单类型注入
 
@@ -599,15 +561,9 @@ public class SpringConfig {
 }
 ```
 
-==注意：@PropertySource()中加载多文件请使用数组格式配置，不允许使用通配符*==
+注意：@PropertySource()中加载多文件请使用数组格式配置，不允许使用通配符
 
-
-
-### 5 注解开发管理第三方Bean【重点】
-
-#### 问题导入
-
-导入自己定义的配置类有几种方式？
+### 5 注解开发管理第三方Bean
 
 #### **【第一步】单独定义配置类**
 
@@ -648,13 +604,7 @@ public class SpringConfig {
 }
 ```
 
-
-
-### 6 注解开发为第三方Bean注入资源【重点】
-
-#### 问题导入
-
-配置类中如何注入简单类型数据，如何注入引用类型数据？
+### 6 注解开发为第三方Bean注入资源
 
 #### 6.1 简单类型依赖注入
 
@@ -702,17 +652,13 @@ public DataSource dataSource(BookDao bookDao){
 
 > 说明：引用类型注入只需要为bean定义方法设置形参即可，容器会根据类型自动装配对象
 
-
-
 ### 7 注解开发总结
 
 ![image-20210730113548708](assets/image-20210730113548708.png)
 
+## 四、Spring整合其他技术
 
-
-## 四、Spring整合其他技术【重点】
-
-### 1 Spring整合mybatis【重点】
+### 1 Spring整合mybatis
 
 #### 1.1 思路分析
 
@@ -953,7 +899,7 @@ public class AccountServiceTest {
 }
 ```
 
-**==注意：junit的依赖至少要是4.12版本,可以是4.13等版本,否则出现如下异常：==**
+**注意：junit的依赖至少要是4.12版本,可以是4.13等版本,否则出现如下异常：**
 
 ![image-20200831155517797](assets/image-20200831155517797.png)
 
