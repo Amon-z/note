@@ -822,10 +822,6 @@ public class AccountServiceTest {
 
 ### 3 Spring事务相关配置
 
-#### 问题导入
-
-什么样的异常，Spring事务默认是不进行回滚的？
-
 #### 3.1 事务配置
 
 ![image-20210802151553053](assets/image-20210802151553053.png)
@@ -935,5 +931,7 @@ public class AccountServiceTest {
 ```
 
 #### 3.3 事务传播行为
+
+事务传播行为：事务协调员对事务管理员所携带事务的处理态度
 
 ![image-20210802153014296](assets/image-20210802153014296.png)
