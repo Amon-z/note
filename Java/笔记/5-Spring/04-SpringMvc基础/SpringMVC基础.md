@@ -1,10 +1,3 @@
-**今日内容**
-
-> - 理解SpringMVC相关概念
-> - 掌握SpringMvc请求参数处理
-> - 掌握SpringMvc响应结果处理
-> - 掌握RESTful风格及其使用
-
 # 1、SpringMVC简介
 
 ## 1.1 背景
@@ -15,14 +8,12 @@ Servlet属于web层开发技术，技术特点：
 2. 创建Servlet存在重复操作
 3. 代码灵活性低，开发效率低
 
-是否有技术方案可以解决以上问题？
+使用SpringMVC解决以上问题。
 
-
-
-## 1.2 SpringMVC概述
+## 1.2 SringMVC概述
 
 - SpringMVC是一种基于Java实现MVC模型的轻量级Web框架
-- 详细介绍见官网：https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc
+- 详细介绍见[官网](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc)
 - 优点
   - 使用简单、开发便捷(相比于Servlet)
   - 灵活性强
@@ -464,8 +455,6 @@ GET请求与POST请求都能正常访问
 
 ![1669457797525](assets/1669457797525.png)
 
-
-
 ### 3.3、参数
 
 #### 3.3.1、基本数据类型
@@ -496,12 +485,12 @@ GET请求与POST请求都能正常访问
 
 - 知识点：@RequestParam
 
-| 名称     | @RequestParam                                          |
-| -------- | ------------------------------------------------------ |
-| 类型     | 形参注解                                               |
-| 位置     | SpringMVC控制器方法形参定义前面                        |
-| 作用     | 绑定请求参数与处理器方法形参间的关系                   |
-| 相关参数 | required：是否为必传参数 <br/>defaultValue：参数默认值 |
+| 名称     | @RequestParam                                         |
+| -------- | ----------------------------------------------------- |
+| 类型     | 形参注解                                              |
+| 位置     | SpringMVC控制器方法形参定义前面                       |
+| 作用     | 绑定请求参数与处理器方法形参间的关系                  |
+| 相关参数 | required：是否为必传参数 <br>defaultValue：参数默认值 |
 
 #### 3.3.2、POJO
 
@@ -581,7 +570,7 @@ public String pojoParam(User user){
 
 **注意:**
 
-==请求参数key的名称要和POJO中属性的名称一致，否则无法封装==
+请求参数key的名称要和POJO中属性的名称一致，否则无法封装
 
 #### 3.3.4、数组
 
@@ -610,7 +599,6 @@ public String pojoParam(User user){
 数组能接收多个值，那么集合是否也可以实现这个功能呢?
 
 1. 发送请求和参数:
-2. [1630484283773](assets/1630484283773.png)
 
 ![1630484283773](assets/1630484283773.png)
 
@@ -630,9 +618,8 @@ public String listParam(List<String> likes){
 
 ![1630484339065](assets/1630484339065.png)
 
-- 错误原因：
+- 错误原因：SpringMVC将List看做是一个POJO对象来处理，将其创建一个对象并准备把前端的数据封装到对象中，但是List是一个接口无法创建对象，所以报错。
 
-  ​        SpringMVC将List看做是一个POJO对象来处理，将其创建一个对象并准备把前端的数据封装到对象中，但是List是一个接口无法创建对象，所以报错。
 
 3. 正确接收方式
 
@@ -700,7 +687,7 @@ public String dateParam(Date date,@DateTimeFormat(pattern = "yyyy-MM-dd") Date d
 
 | 名称     | @DateTimeFormat                 |
 | -------- | ------------------------------- |
-| 类型     | ==形参注解==                    |
+| 类型     | 形参注解                        |
 | 位置     | SpringMVC控制器方法形参前面     |
 | 作用     | 设定日期时间型数据格式          |
 | 相关属性 | pattern：指定日期时间格式字符串 |
@@ -914,11 +901,9 @@ public class ServletContainersInitConfig extends AbstractAnnotationConfigDispatc
 }
 ```
 
-CharacterEncodingFilter是在spring-web包中，所以用之前需要导入对应的jar包。
+CharacterEncodingFilter是在spring-web包中，所以用之前需要导入对应的jar包。已经包含在spring-webmvc包中，无需单独导入。
 
 # 4、响应结果处理
-
-
 
 ### 4.1、前期准备
 
@@ -943,8 +928,6 @@ CharacterEncodingFilter是在spring-web包中，所以用之前需要导入对�
   ```
 
 ### 4.2、响应页面
-
-
 
 ##### 4.2.1、后端接口设置
 
@@ -1463,7 +1446,7 @@ RESTful入门案例，我们需要学习的内容如下:
 (1)设定Http请求动作(动词)
 
 ```java
-@RequestMapping(value="",method = RequestMethod.==POST|GET|PUT|DELETE)
+@RequestMapping(value="",method = RequestMethod.(POST|GET|PUT|DELETE)
 ```
 
 (2)设定请求参数(路径变量)
@@ -1486,7 +1469,7 @@ public String delete(@PathVariable Integer id){
 
 | 名称 | @PathVariable                                                |
 | ---- | ------------------------------------------------------------ |
-| 类型 | ==形参注解==                                                 |
+| 类型 | 形参注解                                                     |
 | 位置 | SpringMVC控制器方法形参定义前面                              |
 | 作用 | 绑定路径参数与处理器方法形参间的关系，要求路径参数名与形参名一一对应 |
 
@@ -1588,7 +1571,7 @@ public class BookController {
 
 | 名称 | @RestController                                              |
 | ---- | ------------------------------------------------------------ |
-| 类型 | ==类注解==                                                   |
+| 类型 | 类注解                                                       |
 | 位置 | 基于SpringMVC的RESTful开发控制器类定义上方                   |
 | 作用 | 设置当前控制器类为RESTful风格，<br/>等同于@Controller与@ResponseBody两个注解组合功能 |
 
@@ -1596,7 +1579,7 @@ public class BookController {
 
 | 名称     | @GetMapping @PostMapping @PutMapping @DeleteMapping          |
 | -------- | ------------------------------------------------------------ |
-| 类型     | ==方法注解==                                                 |
+| 类型     | 方法注解                                                     |
 | 位置     | 基于SpringMVC的RESTful开发控制器方法定义上方                 |
 | 作用     | 设置当前控制器方法请求访问路径与请求动作，每种对应一个请求动作，<br/>例如@GetMapping对应GET请求 |
 | 相关属性 | value（默认）：请求访问路径                                  |
@@ -1607,11 +1590,11 @@ public class BookController {
 
 #### 5.4.1 需求分析
 
-需求一:图片列表查询，从后台返回数据，将数据展示在页面上
+需求一:图书列表查询，从后台返回数据，将数据展示在页面上
 
 ![1630508310063](assets/1630508310063.png)
 
-需求二:新增图片，将新增图书的数据传递到后台，并在控制台打印
+需求二:新增图书，将新增图书的数据传递到后台，并在控制台打印
 
 ![1630508367105](assets/1630508367105.png)
 
@@ -2031,7 +2014,7 @@ public class SpringMvcConfig {
 
 ![1669464860746](assets/1669464860746.png)
 
-### 6.1.2 组件介绍：
+### 6.1.2 组件介绍
 
 - DispatcherServlet：前端控制器，是整体流程控制的中心，由其调用其它组件处理用户的请求，有效的降低了组件间的耦合性
 - HandlerMapping：处理器映射器，负责根据用户请求找到对应具体的Handler处理器
@@ -2062,10 +2045,4 @@ public class SpringMvcConfig {
 4. 调用processDispatchResult方法：解析返回值
    - ModelAndView != null   => 调用视图解析器 viewResolver
    - ModelAndView == null   => 不再调用视图解析器（加上@ResponseBody后不再走视图解析器）
-
-![1669465911659](../../../../../../%E6%95%99%E5%AD%A6%E8%AF%BE%E4%BB%B6/My%E8%AF%BE%E7%A8%8B/%E5%A4%87%E8%AF%BE%E6%96%87%E4%BB%B6/springmvc%E5%A4%87%E8%AF%BE/day01/newassets/1669465911659.png)
-
-![1669465962433](../../../../../../%E6%95%99%E5%AD%A6%E8%AF%BE%E4%BB%B6/My%E8%AF%BE%E7%A8%8B/%E5%A4%87%E8%AF%BE%E6%96%87%E4%BB%B6/springmvc%E5%A4%87%E8%AF%BE/day01/newassets/1669465962433.png)
-
-![1669466104922](../../../../../../%E6%95%99%E5%AD%A6%E8%AF%BE%E4%BB%B6/My%E8%AF%BE%E7%A8%8B/%E5%A4%87%E8%AF%BE%E6%96%87%E4%BB%B6/springmvc%E5%A4%87%E8%AF%BE/day01/newassets/1669466104922.png)
 
