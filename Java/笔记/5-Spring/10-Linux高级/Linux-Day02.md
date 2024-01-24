@@ -1,45 +1,4 @@
----
-typora-copy-images-to: assets
----
-
 #  Linux-Day02
-
-
-
-~~~markdown
-掌握Linux的文件目录操作命令
-	1.创建文件 ：touch 文件
-	2.创建文件夹:mkdir 文件夹名
-	3.更改目录：cd 更改目录
-	4.查看文件：
-		1）cat 文件名 查看整个文件
-		2）more 文件名 ：从头开始分屏查看  空格 向下一屏 
-		3）tail 文件名  ：从后往前查看，默认查看后10行  tail -行 文件名  
-	5.删除文件和目录： rm -rf 删除的内容
-掌握Linux的拷贝移动命令
-	1.拷贝：复制  cp 源文件 目的地
-	2.剪切和重命名；
-		mv 源文件  目的地
-			剪切：目的地存在
-			重命名：目的地不存在
-掌握Linux的文本编辑vim命令
-	1）进入命令行模式： vim 文件名。都是整行操作。yy 复制 p 粘贴 dd 删除  u撤销 /搜索的内容
-	2)从命令行模式进入到编辑模式：i 光标前插入  a  光标后插入  o 换行插入
-	3）从编辑模式到命令模式按esc,然后在英文输入法按:进入到底行模式。:wq 保存退出   :q!不保存退出
-掌握Linux的查找命令
-	1）find 搜索目录 -name '要搜索的字符串'  表示在指定目录查询指定文件或者目录
-	2）grep -nvi 搜索的字符串 文件名  ： 在指定文件中查找要搜索的内容
-~~~
-
-
-
-
-
-## 课程内容
-
-- 软件安装
-
-- 项目部署
 
 
 ## 1. 软件安装
@@ -51,7 +10,7 @@ typora-copy-images-to: assets
 | 安装方式                        | 特点                                                         |
 | ------------------------------- | ------------------------------------------------------------ |
 | 二进制发布包安装                | 软件已经针对具体平台编译打包发布，只要解压，修改配置即可。例如tomcat |
-| rpm(redhat package manager)安装 | 软件已经按照redhat的包管理规范进行打包，使用rpm命令进行安装，==但是包之间有可能具有依赖关系，因此不能自行解决库依赖问题，比较麻烦。== |
+| rpm(redhat package manager)安装 | 软件已经按照redhat的包管理规范进行打包，使用rpm命令进行安装，但是包之间有可能具有依赖关系，因此不能自行解决库依赖问题，比较麻烦。 |
 | yum安装                         | 一种在线软件安装方式，本质上还是rpm安装，自动下载安装包并安装，安装过程中自动解决库依赖问题(安装过程需要联网) |
 | 源码编译安装                    | 软件以源码工程的形式发布，需要自己编译打包。类似.java文件需要编译成.class文件安装方式。第一个二进制发布包安装相当于直接拿到.class文件直接安装。 |
 
@@ -73,32 +32,23 @@ typora-copy-images-to: assets
     export JAVA_HOME CLASSPATH PATH
 6、重新加载profile文件，使更改的配置立即生效，命令为source /etc/profile
 7、检查安装是否成功，命令为java -version
-
 ~~~
 
-
-
-​	1.进入到根目录下的/usr/local目录，并创建目录soft
+1.进入到根目录下的/usr/local目录，并创建目录soft
 
 ![image-20200219173659705](assets/image-20200219173659705.png)
 
-​	2.将windows系统的jdk软件传递到linux下的soft目录下，并查看soft目录。
+2.将windows系统的jdk软件传递到linux下的soft目录下，并查看soft目录。
 
 ![image-20221203213255602](assets/image-20221203213255602.png)
 
-
-
 ![image-20200219174242939](assets/image-20200219174242939.png)
 
-
-
-​	3.**进入“/soft”目录，解压jdk到该目录下**
+3.**进入“/soft”目录，解压jdk到该目录下**
 
 ```
  tar -zxvf jdk-8u181-linux-x64.tar.gz 
 ```
-
-
 
 ![image-20221203213841278](assets/image-20221203213841278.png)
 
@@ -106,7 +56,7 @@ typora-copy-images-to: assets
 
 ![image-20200219174911697](assets/image-20200219174911697.png)
 
-​	4.到目录jdk1.8.0_181下查看jdk的安装目录结构
+4.到目录jdk1.8.0_181下查看jdk的安装目录结构
 
 ![image-20200219181716402](assets/image-20200219181716402.png)
 
@@ -116,7 +66,7 @@ typora-copy-images-to: assets
 
 报上述错误的原因是没有配置环境变量，接下来我们需要配置环境变量path.类似于windows系统中配置环境变量一样。
 
-​	5.**配置jdk环境变量，打开/etc/profile配置文件，将下面配置拷贝进去。export命令用于将shell变量输出为环境变量**
+5.**配置jdk环境变量，打开/etc/profile配置文件，将下面配置拷贝进去。export命令用于将shell变量输出为环境变量**
 
 ```
 #set java environment
@@ -165,10 +115,6 @@ source /etc/profile
 
 ![image-20200219183246405](assets/image-20200219183246405.png)
 
-
-
-
-
 **JDK安装小结**
 
 1. **解压到压缩包到：/usr/local/soft(自己创建的)**
@@ -185,8 +131,6 @@ export JAVA_HOME CLASSPATH PATH
 
 3.**重新加载配置: source  /etc/profile** 
 
-
-
 4.检查是否已安装jdk： 
 
 ~~~shell
@@ -198,8 +142,6 @@ export JAVA_HOME CLASSPATH PATH
 [root@192 local]# rpm -qa | grep openjdk |xargs rpm -e --nodeps
 ~~~
 
- 
-
 ### 1.3 安装Tomcat
 
 #### 1.3.1 Tomcat安装
@@ -208,8 +150,6 @@ Tomcat的安装和上述JDK的安装采用相同的方式，都是使用二进�
 
 ![image-20221204191226452](assets/image-20221204191226452.png)
 
-
-
 具体安装步骤如下： 
 
 **1). 上传安装包**
@@ -217,8 +157,6 @@ Tomcat的安装和上述JDK的安装采用相同的方式，都是使用二进�
 使用FinalShell自带的上传工具将Tomcat的二进制发布包上传到Linux(与前面上传JDK安装包步骤一致)。
 
 ![image-20221204191548656](assets/image-20221204191548656.png)
-
-
 
 **2)  进入soft文件夹，解压Tomcat到soft目录下**
 
@@ -239,8 +177,6 @@ tar -zxvf apache-tomcat-8.5.27.tar.gz
 
 ![image-20200220214753103](assets/image-20200220214753103.png)
 
-
-
 **3). 启动Tomcat**
 
 进入Tomcat的bin目录启动服务。执行命令为: 
@@ -256,8 +192,6 @@ cd bin
 <img src="assets/image-20210814223807228.png" alt="image-20210814223807228" style="zoom:85.5%;" /> 
 
 ![image-20221204192742125](assets/image-20221204192742125.png) 
-
-
 
 #### 1.3.2 Tomcat进程查看
 
@@ -296,11 +230,7 @@ ps -aux | grep tomcat
 
 防火墙引发的问题
 
-![image-20200218224035593](assets/image-20200218224035593.png)
-
-
-
-
+![image-20200218224035593](assets/image-20200218224035593.png
 
 接下来我们就需要学习一下，如何操作防火墙，具体指令如下： 
 
@@ -325,8 +255,6 @@ ps -aux | grep tomcat
 >
 > ​	C. 为了保证系统安全，服务器的防火墙不建议关闭
 
-
-
 那么我们要想访问到Tomcat，就可以采取两种类型的操作：
 
 **A. 关闭防火墙**
@@ -342,8 +270,6 @@ systemctl stop firewalld
 ![image-20210814232643393](assets/image-20210814232643393.png) 
 
 注意: 上面我们也提到了，直接关闭系统的防火墙，是不建议的，因为这样会造成系统不安全。
-
-
 
 **B. 开放Tomcat的端口号8080**
 
@@ -369,13 +295,9 @@ firewall-cmd --reload
 | --list-all              | 显示所有已经添加的端口号                                     |
 | **--reload**            | 重启加载端口的规则，让新的端口号起作用                       |
 
-
-
 执行上述的操作之后，就开放了当前系统中的8080端口号，再次访问Tomcat。
 
 ![image-20210814232643393](assets/image-20210814232643393.png)
-
-
 
 #### 1.3.4 停止Tomcat
 
@@ -392,8 +314,6 @@ firewall-cmd --reload
 ```
 ./shutdown.sh
 ```
-
-
 
 **2). 结束Tomcat进程**
 
@@ -413,13 +333,9 @@ kill -9 79947
 >
 > ​	kill命令是Linux提供的用于结束进程的命令，-9表示强制结束
 
-
-
 > 注意 ： 
 >
 > ​	虽然上述讲解的两种方式，都可以停止Tomcat服务，但是推荐使用第一种方式(./shutdown.sh)执行脚本来关闭tomcat服务，如果通过第一种方式停止不了tomcat了，这个时候，我们可以考虑使用第二种方式，强制杀死进程。
-
-
 
 ### 1.4 安装MySQL
 
@@ -428,8 +344,6 @@ kill -9 79947
 对于MySQL数据库的安装，我们将要使用前面讲解的第二种安装方式rpm进行安装。那么首先我们先了解一下什么是rpm？
 
 > **RPM：**全称为 Red-Hat Package Manager，RPM软件包管理器，是红帽Linux用于管理和安装软件的工具。
-
-
 
 我们要通过rpm，进行MySQL数据库的安装，主要的步骤如下：
 
@@ -449,8 +363,6 @@ rpm -qa | grep mariadb			查询当前系统中安装的名称带mariadb的软件
 
 通过查询，我们发现在当前系统中存在mariadb数据库，是CentOS7中自带的，而这个数据库和MySQL数据库是冲突的，所以要想保证MySQL成功安装，需要卸载mariadb数据库。
 
-
-
 **2). 卸载现有的MySQL数据库**
 
 在rpm中，卸载软件的语法为： 
@@ -469,8 +381,6 @@ rpm -e --nodeps  mariadb-libs-5.5.60-1.el7_5.x86_64
 
 我们看到执行完毕之后， 再次查询 mariadb，就查不到了，因为已经被成功卸载了。
 
-
-
 **3). 将资料中提供的MySQL安装包上传到Linux并解压**
 
 A. 上传MySQL安装包
@@ -480,8 +390,6 @@ A. 上传MySQL安装包
 ![image-20210815002907050](assets/image-20210815002907050.png) 
 
 ![image-20210815003107734](assets/image-20210815003107734.png) 
-
-
 
 B. 解压到/usr/local/soft/mysql
 
@@ -493,8 +401,6 @@ tar -zxvf mysql-5.7.25-1.el7.x86_64.rpm-bundle.tar.gz -C /usr/local/soft/mysql
 ```
 
 ![image-20210815003647507](assets/image-20210815003647507.png) 
-
-
 
 **4). 按照顺序安装rpm安装包**
 
@@ -514,8 +420,6 @@ yum install net-tools
 rpm -ivh mysql-community-server-5.7.25-1.el7.x86_64.rpm
 ```
 
-
-
 > 说明: 
 >
 > - 因为rpm安装方式，是不会自动处理依赖关系的，需要我们自己处理，所以对于上面的rpm包的安装顺序不能随意修改。
@@ -523,8 +427,6 @@ rpm -ivh mysql-community-server-5.7.25-1.el7.x86_64.rpm
 > - 可以通过指令(yum update)升级现有软件及系统内核
 
 ![image-20210815004608198](assets/image-20210815004608198.png) 
-
-
 
 #### 1.4.2 MySQL启动
 
@@ -544,15 +446,11 @@ systemctl stop mysqld		停止mysql服务
 
 ![image-20210815005920721](assets/image-20210815005920721.png)
 
-
-
 > 说明： 这里不建议，后期学习docker有可能会导致端口号冲突。
 >
 > ​	可以设置开机时启动mysql服务，避免每次开机启动mysql。执行如下指令： 
 >
 > ​	systemctl enable mysqld
-
-
 
 我们可以通过如下两种方式，来判定mysql是否启动：
 
@@ -578,15 +476,11 @@ ps -aux | grep mysql				查看mysql进程
 >
 > ​	<font color='red'>B. ps命令用于查看Linux中的进程数据。</font>
 
-
-
 #### 1.4.3 MySQL登录
 
 ##### 1.4.3.1 查阅临时密码
 
 MySQL启动起来之后，我们就可以测试一下登录操作，但是我们要想登录MySQL，需要一个访问密码，而刚才在安装MySQL的过程中，并没有看到让我们设置访问密码，那这个访问密码是多少呢? 那实际上，对于rpm安装的mysql，在mysql第一次启动时，会自动帮我们生成root用户的访问密码，并且输出在mysql的日志文件 /var/log/mysqld.log中，我们可以查看这份日志文件，从而获取到访问密码。
-
-
 
 可以执行如下指令：
 
@@ -596,15 +490,13 @@ MySQL启动起来之后，我们就可以测试一下登录操作，但是我们
 
 这种方式，可以看到所有的日志数据，文件比较大时，很不方便查看数据。我们可以通过管道符 | 配合grep来对数据进行过滤。
 
-
-
 2). cat /var/log/mysqld.log | grep password
 
 我们可以通过上述指令，查询日志文件内容中包含password的行信息。
 
 ![image-20210815011938287](assets/image-20210815011938287.png) 
 
-注意：==临时的密码要加单上引号，否则可能登录失败！==
+注意：临时的密码要加单上引号，否则可能登录失败！
 
 ##### 1.4.3.2 登录MySQL
 
@@ -632,11 +524,7 @@ MySQL启动起来之后，我们就可以测试一下登录操作，但是我们
 
 ![image-20210815012902871](assets/image-20210815012902871.png) 
 
-
-
-
-
-==注意： 要想在windows上能够访问MySQL，还需要开放防火墙的3306端口，执行如下指令：==
+注意： 要想在windows上能够访问MySQL，还需要开放防火墙的3306端口，执行如下指令：
 
 ```
 #开放的端口永久保存到防火墙
@@ -650,8 +538,6 @@ firewall-cmd --reload;
 
 ![image-20221204213540595](assets/image-20221204213540595.png)
 
-
-
 ##### 1.4.3.3 修改MySQL默认编码
 
 ```java
@@ -663,9 +549,7 @@ character-set-server = utf8
 collation-server =utf8_general_ci
 ```
 
-
-
-### 1.5 安装lrzsz(主要是练习是Yum安装软件)
+### 1.5 安装lrzsz
 
 lrzsz 是用于在Linux系统中文件上传下载的软件。大家可能会存在疑问，我们用finalShell图形化界面就可以很方便的完成上传下载，为什么还要使用这个软件来完成上传下载呢？实际上是这样的，Linux的远程连接工具有很多，而finalShell只是其中的一种，而还有很多的远程连接工具并没有上传下载的功能，这个时候就需要依赖于lrzsz这个软件了。**最主要的是我们这里想通过Yum方式来安装lrzsz。让大家熟悉使用Yum如何安装软件。**
 
@@ -680,8 +564,6 @@ lrzsz 是用于在Linux系统中文件上传下载的软件。大家可能会存
 > | **命令：remove**               | 删除指定的安装包                  |
 > | **命令：list**                 | 搜索指定的安装包                  |
 
-
-
 安装lrzsz的步骤如下: 
 
 **1). 搜索lrzsz安装包**
@@ -692,8 +574,6 @@ yum list lrzsz
 
 ![image-20210815014811466](assets/image-20210815014811466.png) 
 
-
-
 **2). 在线安装lrzsz**
 
 ```
@@ -701,8 +581,6 @@ yum install lrzsz.x86_64
 ```
 
 ![image-20210815014907816](assets/image-20210815014907816.png) 
-
-
 
 **3). 测试**
 
@@ -714,13 +592,9 @@ yum install lrzsz.x86_64
 
 ![image-20221205150446799](assets/image-20221205150446799.png)
 
-
-
 > **yum拓展知识:**
 >
-> ​	 1). 如果在不更改软件来源的情况下，是需要联网才能使用yum的，那么我们安装的软件是从哪儿下载的呢，这里就涉及到一个概念： yum源。
->
-> ​		
+> ​	 1). 在不更改软件来源的情况下，是需要联网才能使用yum的，那么我们安装的软件是从哪儿下载的呢，这里就涉及到一个概念： yum源。
 >
 > ​	 2). 我们可以通过一个指令，来检查当前的yum源
 >
@@ -728,15 +602,11 @@ yum install lrzsz.x86_64
 >
 > ​	从图中，我们可以看到我们安装的 CentOS7 采用的是南京邮电大学的yum源。
 >
-> ​		
->
 > ​	  3). 网络 yum 源配置文件位于 /etc/yum.repos.d/ 目录下，文件扩展名为"*.repo"
 >
 > ​		<img src="assets/image-20210816193941094.png" alt="image-20210816193941094" style="zoom:80%;" /> 
 >
 > ​		可以看到，该目录下有 7 个 yum 配置文件，通常情况下 CentOS-Base.repo 文件生效。
->
-> ​		
 >
 > ​	  4). 添加阿里云yum源
 >
@@ -770,13 +640,9 @@ yum install lrzsz.x86_64
 >
 > ​		E. 再次查看yum源
 >
-> ​			<img src="assets/image-20210816214230609.png" alt="image-20210816214230609" style="zoom:80%;" /> 
+> <img src="assets/image-20210816214230609.png" alt="image-20210816214230609" style="zoom:80%;" /> 
 >
 > ​			之后，我们通过yum指令安装软件，就是从阿里云下载的。
-
-
-
-
 
 ## 2. 项目部署
 
@@ -790,21 +656,15 @@ yum install lrzsz.x86_64
 
 ![image-20221205155029145](assets/image-20221205155029145.png)
 
-
-
 ![image-20210815102934678](assets/image-20210815102934678.png) 
 
 可以在本地的idea中先启动当前的demo工程，然后访问一下，看看工程是否正常访问。
 
 ![image-20210815103130325](assets/image-20210815103130325.png) 
 
-
-
 执行package指令，进行打包操作，将当前的springboot项目，打成一个jar包。 
 
 ![image-20210815103344378](assets/image-20210815103344378.png) 
-
-
 
 **2). 将jar包上传到Linux服务器**
 
@@ -841,8 +701,6 @@ firewall-cmd --zone=public --list-ports
 firewall-cmd --zone=public --add-port=8080/tcp --permanent
 ```
 
-
-
 **4）查看当前linux系统的ip地址**
 
 ![image-20221205160605494](assets/image-20221205160605494.png)
@@ -857,17 +715,13 @@ java -jar helloworld-1.0-SNAPSHOT.jar
 
 ![image-20210815131812582](assets/image-20210815131812582.png) 
 
-
-
-==注意： 由于前面安装的Tomcat在启动时，会占用端口号8080，而当前springboot项目我们没有配置端口号，默认也是8080，所以我们要想启动springboot项目，需要把之前运行的Tomcat停止掉。==
+注意： 由于前面安装的Tomcat在启动时，会占用端口号8080，而当前springboot项目我们没有配置端口号，默认也是8080，所以我们要想启动springboot项目，需要把之前运行的Tomcat停止掉。
 
 **6). 访问测试**
 
 http://192.168.200.128:8080/hello
 
 ![image-20210815132748655](assets/image-20210815132748655.png) 
-
-
 
 **6). 后台运行项目**
 
@@ -877,15 +731,11 @@ http://192.168.200.128:8080/hello
 
 ![image-20210815133719642](assets/image-20210815133719642.png) 
 
-
-
 **目前程序运行的问题：**
 
 A. 线上程序不会采用控制台霸屏的形式运行程序，而是将程序在后台运行
 
 B. 线上程序不会将日志输出到控制台，而是输出到日志文件，方便运维查阅信息
-
-
 
 **后台运行程序:**
 
@@ -909,8 +759,6 @@ B. 线上程序不会将日志输出到控制台，而是输出到日志文件�
 >
 > ​	上述指令的含义为： 后台运行 java -jar 命令，并将日志输出到hello.log文件
 
-
-
 那么经过上面的介绍，我们可以推测中，我们要想让当前部署的项目后台运行，就可以使用下面的指令： 
 
 ```
@@ -933,15 +781,11 @@ nohup java -jar helloworld-1.0-SNAPSHOT.jar &> hello.log &
 
 ![image-20210815132748655](assets/image-20210815132748655.png) 
 
-
-
 **7). 停止SpringBoot项目**
 
 ![image-20210815142132135](assets/image-20210815142132135.png) 
 
-
-
-### 2.2 基于Shell脚本自动部署(掌握，开发使用，环境安装是运维完成)
+### 2.2 基于Shell脚本自动部署
 
 #### 2.2.1 介绍
 
@@ -963,8 +807,6 @@ nohup java -jar helloworld-1.0-SNAPSHOT.jar &> hello.log &
 
 6). 执行Shell脚本
 
-
-
 #### 2.2.2 推送代码到远程仓库
 
 这部分操作，大家只需要参考之前讲解的Git，来完成helloworld工程代码推送即可。
@@ -977,13 +819,9 @@ nohup java -jar helloworld-1.0-SNAPSHOT.jar &> hello.log &
 
 ![image-20221209173852145](assets/image-20221209173852145.png)
 
-
-
-
-
 ##### B.使用ssh安全协议访问git远程仓库免密登录
 
-1.在本地确认已经==安装好git软件==后，使用指令生成ssh公钥：
+1.在本地确认已经安装好git软件后，使用指令生成ssh公钥：
 
 ~~~shell
   C:\Users\46035>ssh-keygen -t rsa
@@ -1011,8 +849,6 @@ nohup java -jar helloworld-1.0-SNAPSHOT.jar &> hello.log &
 ##### C.将代码推送到gitlab远程
 
 ![image-20221209182042935](assets/image-20221209182042935.png)
-
-
 
 ![image-20221209182520476](assets/image-20221209182520476.png)
 
@@ -1043,8 +879,6 @@ yum install git			在线安装git
 ssh-keygen -t rsa
 ~~~
 
-
-
 ![1651741996554](assets/1651741996554.png)
 
 获取/root/.ssh/id_rsa.pub公钥信息，并配置到gitlab下：
@@ -1057,8 +891,6 @@ ssh-keygen -t rsa
  git clone ssh://git@47.96.143.141:2224/tiansuo/helloworld_heima100.git
  # 整个过程无需输入账户和密码，非常方便
 ```
-
-
 
 2). Git克隆代码
 
@@ -1073,25 +905,17 @@ git clone ssh://git@47.96.143.141:2224/tiansuo/helloworld_heima100.git
 
 ![image-20221209204446181](assets/image-20221209204446181.png) 
 
-
-
-
-
 #### 2.2.4 Maven安装
 
 由于我们的工程是maven工程，我们要想进行项目的编译打包，需要用到maven的指令，所以需要安装maven。具体操作步骤如下：
 
 ##### **1). 上传资料中提供的maven的安装包**
 
-
-
 ![image-20210815151544489](assets/image-20210815151544489.png) 
 
 ![image-20221209205000497](assets/image-20221209205000497.png)
 
 ![image-20221209205115974](assets/image-20221209205115974.png)  
-
-
 
 ##### **2). 解压maven安装包到/usr/local/soft目录**
 
@@ -1119,8 +943,6 @@ PATH=$JAVA_HOME/bin:$MAVEN_HOME/bin:$PATH
 
 ![image-20210815152321369](assets/image-20210815152321369.png) 
 
-
-
 要想让配置的环境变量生效,还需要执行如下指令:
 
 ```
@@ -1129,8 +951,6 @@ source /etc/profile
 
 ![image-20221209210105973](assets/image-20221209210105973.png) 
 
-
-
 ##### **4). 修改maven的settings.xml配置文件,配置本地仓库地址**
 
 A. 切换目录
@@ -1138,8 +958,6 @@ A. 切换目录
 ```
 cd /usr/local/soft/apache-maven-3.5.4/conf
 ```
-
-
 
 B. 编辑settings.xml配置文件
 
@@ -1155,9 +973,7 @@ vim settings.xml
 
 ![image-20210815152936129](assets/image-20210815152936129.png) 
 
-
-
-并在settings.xml中的<mirrors>标签中,配置阿里云的私服(==选做==):
+并在settings.xml中的`<mirrors>`标签中,配置阿里云的私服(选做):
 
 ```xml
 <mirror> 
@@ -1170,15 +986,9 @@ vim settings.xml
 
 ![image-20210815170915170](assets/image-20210815170915170.png) 
 
-
-
 C.创建本地仓库/usr/local/soft/repo
 
 ![image-20221209211436322](assets/image-20221209211436322.png)
-
-
-
-
 
 #### 2.2.5 Shell脚本准备
 
@@ -1186,17 +996,11 @@ C.创建本地仓库/usr/local/soft/repo
 >
 > 对于Shell脚本编写不作为本课程重点内容，直接使用课程资料中提供的脚本文件bootStart.sh即可。
 
-
-
 在/usr/local/soft 目录下创建一个目录 sh(mkdir sh)，并将shell脚本上传到该目录下。或者直接在sh目录下创建一个脚本bootStart.sh，然后将资料中的bootStart.sh文件打开,内容拷贝过来即可。
 
 ![image-20221209213324751](assets/image-20221209213324751.png)
 
-
-
 ![image-20210815153759071](assets/image-20210815153759071.png)
-
-
 
 **脚本解读:** 
 
@@ -1246,8 +1050,6 @@ echo 项目启动完成
 
 ~~~
 
- 
-
 #### 2.2.6 Linux权限
 
 前面我们已经把Shell脚本准备好了，但是Shell脚本要想正常的执行，还需要给Shell脚本分配执行权限。 由于linux系统是一个多用户的操作系统，并且针对每一个用户，Linux会严格的控制操作权限。接下来，我们就需要介绍一下Linux系统的权限控制。
@@ -1262,19 +1064,13 @@ echo 项目启动完成
 >
 > 5). 要执行Shell脚本需要有对此脚本文件的执行权限(x)，如果没有则不能执行
 
-
-
 Linux系统中权限描述如下: 
 
 ![image-20210815162945754](assets/image-20210815162945754.png) 
 
-
-
 解析当前脚本的权限情况: 
 
 <img src="assets/image-20210815162135509.png" alt="image-20210815162135509" style="zoom:80%;" /> 
-
-
 
 chmod命令可以使用八进制数来指定权限(0 - 代表无 , 1 - 执行x , 2 - 写w , 4 - 读r):
 
@@ -1289,8 +1085,6 @@ chmod命令可以使用八进制数来指定权限(0 - 代表无 , 1 - 执行x ,
 | 1    | 只执行         | --x  |
 | 0    | 无             | ---  |
 
-
-
 **举例:**
 
 ```
@@ -1300,9 +1094,7 @@ chmod 210 bootStart.sh   为文件拥有者授予写权限，同组用户授予�
 
 ```
 
-
-
-==注意:==
+注意:
 
 三个数字分别代表不同用户的权限
 
@@ -1339,13 +1131,9 @@ B. 第三个7，代表其他用户，对该文件具有读写执行权限；
 
 ![image-20221209222943817](assets/image-20221209222943817.png) 
 
-
-
 访问项目：
 
 ![image-20210815132748655](assets/image-20210815132748655.png) 
-
-
 
 注意：
 
@@ -1354,8 +1142,6 @@ B. 第三个7，代表其他用户，对该文件具有读写执行权限；
 ![image-20221209223805590](assets/image-20221209223805590.png)
 
 ![image-20221209223918650](assets/image-20221209223918650.png)
-
-
 
 你的公司运维，就会在linux上更新gitlab上的项目：
 
@@ -1413,13 +1199,9 @@ GATEWAY="192.168.200.2"
 DNS1="192.168.200.2"           
 ~~~
 
-
-
 上述我们所设置的网段为200，并不是随意指定的，需要和我们虚拟机中的虚拟网络编辑器中的NAT模式配置的网关保持一致。
 
 ![image-20221209225012784](assets/image-20221209225012784.png)
-
- 
 
 2). 重启网络服务
 
@@ -1432,21 +1214,8 @@ systemctl restart network
 
 ![image-20210815172448448](assets/image-20210815172448448.png) 
 
-==注意：重启完网络服务后ip地址已经发生了改变，此时FinalShell已经连接不上Linux系统，需要创建一个新连接才能连接到Linux。==
-
-
+注意：重启完网络服务后ip地址已经发生了改变，此时FinalShell已经连接不上Linux系统，需要创建一个新连接才能连接到Linux。
 
 再次连接上Linux之后，我们再次查看IP地址，就可以看到我们所设置的静态IP：
 
 ![image-20221209225159799](assets/image-20221209225159799.png) 
-
-
-
-
-
-
-
-
-
-
-
