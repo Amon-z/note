@@ -1,7 +1,3 @@
----
-typora-copy-images-to: img
----
-
 # 今日指数-day07
 
 ## 1.外盘指数展示功能
@@ -57,7 +53,7 @@ typora-copy-images-to: img
 
 ~~~text
 功能描述：根据输入的个股代码，进行模糊查询，返回证券代码和证券名称
-服务路径：/quot/stock/search
+服务路径：/api/quot/stock/search
 服务方法：GET
 请求参数：searchStr （只接受代码模糊查询，不支持文字查询）  
 ~~~
@@ -65,7 +61,7 @@ typora-copy-images-to: img
 响应数据格式：
 
 ~~~json
-{
+{	
     "code": 1,
     "data": [
         {

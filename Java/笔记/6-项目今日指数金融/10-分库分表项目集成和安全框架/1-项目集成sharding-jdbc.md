@@ -1,7 +1,3 @@
----
-typora-copy-images-to: imgs
----
-
 # 项目集成sharding-jdbc
 
 ## 目标
@@ -137,7 +133,7 @@ public class TestSharding {
      */
     @Test
     public void testDefaultDs(){
-        SysUser user = sysUserMapper.selectByPrimaryKey("1237365636208922624");
+        SysUser user = sysUserMapper.selectByPrimaryKey(1237365636208922624L);
         System.out.println(user);
     }
 }

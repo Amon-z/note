@@ -1,7 +1,3 @@
----
-typora-copy-images-to: assets
----
-
 #  认证授权-SpringSecurity
 
 **学习目标**

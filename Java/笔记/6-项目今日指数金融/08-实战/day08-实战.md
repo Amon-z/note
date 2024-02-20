@@ -1,7 +1,3 @@
----
-typora-copy-images-to: img
----
-
 # 今日指数-day08
 
 ## 1. 个股最新分时行情数据
@@ -79,7 +75,8 @@ R<StockRt>
             "tradeAmt": 58672751,//交易量
             "tradeVol": 228625157,//交易金额
             "tradePrice": 3.9//交易价格
-        }
+        },
+        ...
     ]
 }
 ~~~
@@ -179,7 +176,7 @@ sys_permissioin表：
                 "children": []
             }
         ],
-      permissions: ["btn-user-delete",//按钮权限标识
+        "permissions": ["btn-user-delete",//按钮权限标识
                     "btn-log-delete",
                     "btn-user-add",
                     "btn-role-update",
@@ -205,7 +202,6 @@ sys_permissioin表：
 >3.递归用户拥有的权限集合，组织出用户的目录-菜单树（不包含按钮权限）---》menus
 >
 >3.获取按钮权限标识集合（获取权限集合中type=3的权限信息）---》permissions
->
 
 ![1657504077986](./assets/1657504077986.png)
 

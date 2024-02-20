@@ -1,7 +1,3 @@
----
-typora-copy-images-to: imgs
----
-
 # 分库分表专题
 
 ## 学习目标

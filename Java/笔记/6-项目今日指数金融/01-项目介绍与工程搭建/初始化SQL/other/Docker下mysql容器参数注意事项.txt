@@ -1,0 +1,14 @@
+docker run --restart=always -p 3306:3306 --name mysql -v /tmp/mysql/data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root  -e TZ=Asia/Shanghai -d mysql:5.7.25
+
+# docker启动命令
+docker run --restart=always -p 3306:3306 --name mysql -v /tmp/mysql/data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root  -e TZ=Asia/Shanghai -d mysql:5.6 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time_zone='+8:00'
+参数说明：
+	MYSQL_ROOT_PASSWORD ： 设置mysql数据库root的密码
+	MYSQL_DATABASE ： 启动时创建数据库
+	TZ=Asia/shanghai ： 设置容器时区
+	character-set-server ： 服务器字符集，在创建数据库和表时不特别指定字符集，这样统一采用character-set-server字符集。
+		character-set-database ： 数据库字符集
+		character-set-table ： 数据库表字符集
+	collation-server ： 排序规则字符集
+	default-time_zone ： mysql的时区
+参考：https://code84.com/724937.html
