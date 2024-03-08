@@ -1,7 +1,3 @@
----
-typora-copy-images-to: assets
----
-
 # 项目集成SpringSecurity
 
 **学习目标**
@@ -486,7 +482,7 @@ public AuthenticationFilter authenticationFilter(){
 </dependency>
 ~~~
 
-### 1.2  自定义认证过虑器
+### 1.2  自定义认证过滤器
 
 当前项目中认证登录信息的合法性，除了用户名、密码外，还需要校验验证码，所以认证过滤器需要注入redis模板对象：
 
@@ -1103,7 +1099,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
 授权的逻辑与第一章相似，需要实现OncePerRequestFilter过滤器；
 
-### 5.1 定义授权顾虑器
+### 5.1 定义授权过滤器
 
 ~~~java
 package com.itheima.stock.security.filter;

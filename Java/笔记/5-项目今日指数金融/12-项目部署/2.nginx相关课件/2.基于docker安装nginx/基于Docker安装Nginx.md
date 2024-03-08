@@ -1,7 +1,3 @@
----
-typora-copy-images-to: imgs
----
-
 # 基于Docker安装Nginx
 
 ## 1.1 寻找Nginx镜像

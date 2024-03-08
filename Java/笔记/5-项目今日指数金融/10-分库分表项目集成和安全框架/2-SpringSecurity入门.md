@@ -23,7 +23,7 @@
 
 ​	认证是为了保护身份的合法性，授权则是为了更细粒度的对数据进行划分，授权是在认证通过的前提下发生的。控制不同的用户能够访问不同的资源。
 
- 	  **授权是用户认证通过后根据用户的权限来控制用户访问资源的过程**，拥有资源的访问权限则正常访问，没有权限则拒绝访问。
+ 	  授权是用户认证通过后根据用户的权限来控制用户访问资源的过程，拥有资源的访问权限则正常访问，没有权限则拒绝访问。
 
    例如视频网站的VIP用户，可以查看到普通用户看不到的资源信息。
 
@@ -487,7 +487,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ### 4.2 基于注解方式定义授权
 
-​	基于注解的方式维护权限更偏向于集中化配置管理，但是这种方式带来的问题是随着权限管理的资源的增多，会导致权限配置变得十分的臃肿，所以SpringSecurity为我们提供了基于注解的配置方式。
+​	基于编码的方式维护权限更偏向于集中化配置管理，但是这种方式带来的问题是随着权限管理的资源的增多，会导致权限配置变得十分的臃肿，所以SpringSecurity为我们提供了基于注解的配置方式。
 
 **A.在配置类开启security的前置注解**
 
@@ -530,7 +530,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 **C.注解配置资源权限**
 
-在控制方法/URL的权限时, 可以通过配置类中配置的方式进行控制, 也可以使用 注解 @PreAuthorize 来进行控制, ==推荐使用注解:== 
+在控制方法/URL的权限时, 可以通过配置类中配置的方式进行控制, 也可以使用 注解 @PreAuthorize 来进行控制, 推荐使用注解:
 
 ```java
     /**
@@ -585,7 +585,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 常见的对称加密算法：DES、3DES、DESX、Blowfish、RC4、RC5、RC6和AES
 
-==说白了加密和解密都使用同一个秘钥处理；==
+说白了加密和解密都使用同一个秘钥处理；
 
 
 
@@ -595,7 +595,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 指加密和解密使用不同密钥的加密算法，也称为公私钥加密。假设两个用户要加密交换数据，双方交换公钥，使用时一方用对方的公钥加密，另一方即可用自己的私钥解密。
 
-加密和解密:
+加密和解密: 
 
 - 私钥加密，持有私钥或公钥才可以解密
 - 公钥加密，持有私钥才可解密
@@ -873,7 +873,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 下面介绍过滤器链中主要的几个过滤器及其作用：
 
 - SecurityContextPersistenceFilter 这个Filter是整个拦截过程的入口和出口（也就是第一个和最后一个拦截 器），会在请求开始时从配置好的 SecurityContextRepository 中获取SecurityContext，然后把它设置给 SecurityContextHolder。在请求完成后将SecurityContextHolder 持有的 SecurityContext 再保存到配置好 的SecurityContextRepository，同时清除 securityContextHolder 所持有的 SecurityContext；
-- ==UsernamePasswordAuthenticationFilter==用于处理来自表单提交的认证。该表单必须提供对应的用户名和密 码，其内部还有登录成功或失败后进行处理的 AuthenticationSuccessHandler 和 AuthenticationFailureHandler，这些都可以根据需求做相关改变；
+- UsernamePasswordAuthenticationFilter用于处理来自表单提交的认证。该表单必须提供对应的用户名和密 码，其内部还有登录成功或失败后进行处理的 AuthenticationSuccessHandler 和 AuthenticationFailureHandler，这些都可以根据需求做相关改变；
 - FilterSecurityInterceptor 是用于保护web资源的，使用AccessDecisionManager对当前用户进行授权访问；
 - ExceptionTranslationFilter 能够捕获来自 FilterChain 所有的异常，并进行处理。但是它只会处理两类异常： AuthenticationException 和 AccessDeniedException，其它的异常它会继续抛出。
 
